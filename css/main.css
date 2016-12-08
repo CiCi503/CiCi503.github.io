@@ -1026,7 +1026,7 @@ pre .javascript .function {
   margin-top: 10px;
   font-size: 13px;
   color: #999;
-  opacity: 1;
+  visibility: hidden;
 }
 .use-motion .brand {
   opacity: 0;
@@ -1689,7 +1689,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #fff;
+  background: #ff58c1;
 }
 .links-of-blogroll {
   font-size: 13px;
