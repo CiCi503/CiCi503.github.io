@@ -74,7 +74,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="MySQL," />
+  <meta name="keywords" content="Java,多线程," />
 
 
 
@@ -90,22 +90,16 @@
 
 
 
-<meta name="description" content="&amp;#x7EA6;&amp;#x675F;
-&amp;#x7EA6;&amp;#x675F;&amp;#x7684;&amp;#x76EE;&amp;#x7684;&amp;#xFF1A;&amp;#x4FDD;&amp;#x8BC1;&amp;#x6570;&amp;#x636E;&amp;#x7684;&amp;#x5B8C;&amp;#x6574;&amp;#x6027;&amp;#x548C;&amp;#x4E00;&amp;#x81F4;&amp;#x6027;
-&amp;#x7EA6;&amp;#x675F;&amp;#x5206;&amp;#x4E3A;&amp;#x886">
+<meta name="description" content="&amp;#x9501;&amp;#x5BF9;&amp;#x8C61;Lock&amp;#x662F;java.util.concurrent.locks&amp;#x5305;&amp;#x4E0B;&amp;#x7684;&amp;#x63A5;&amp;#x53E3;&amp;#xFF0C;Lock &amp;#x5B9E;&amp;#x73B0;&amp;#x63D0;&amp;#x4F9B;&amp;#x4E86;&amp;#x6BD4;&amp;#x4F7F;&amp;#x7528;synchronized&amp;#x65B9;&amp;">
 <meta property="og:type" content="article">
-<meta property="og:title" content="MySQL(四)--约束">
-<meta property="og:url" content="http://yoursite.com/2017/02/11/MySQL4约束/index.html">
+<meta property="og:title" content="锁对象与读写锁">
+<meta property="og:url" content="http://yoursite.com/2017/03/06/锁对象与读写锁/index.html">
 <meta property="og:site_name" content="CiCi's Note">
-<meta property="og:description" content="&amp;#x7EA6;&amp;#x675F;
-&amp;#x7EA6;&amp;#x675F;&amp;#x7684;&amp;#x76EE;&amp;#x7684;&amp;#xFF1A;&amp;#x4FDD;&amp;#x8BC1;&amp;#x6570;&amp;#x636E;&amp;#x7684;&amp;#x5B8C;&amp;#x6574;&amp;#x6027;&amp;#x548C;&amp;#x4E00;&amp;#x81F4;&amp;#x6027;
-&amp;#x7EA6;&amp;#x675F;&amp;#x5206;&amp;#x4E3A;&amp;#x886">
-<meta property="og:updated_time" content="2017-02-11T01:57:22.624Z">
+<meta property="og:description" content="&amp;#x9501;&amp;#x5BF9;&amp;#x8C61;Lock&amp;#x662F;java.util.concurrent.locks&amp;#x5305;&amp;#x4E0B;&amp;#x7684;&amp;#x63A5;&amp;#x53E3;&amp;#xFF0C;Lock &amp;#x5B9E;&amp;#x73B0;&amp;#x63D0;&amp;#x4F9B;&amp;#x4E86;&amp;#x6BD4;&amp;#x4F7F;&amp;#x7528;synchronized&amp;#x65B9;&amp;">
+<meta property="og:updated_time" content="2017-03-06T06:33:31.019Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="MySQL(四)--约束">
-<meta name="twitter:description" content="&amp;#x7EA6;&amp;#x675F;
-&amp;#x7EA6;&amp;#x675F;&amp;#x7684;&amp;#x76EE;&amp;#x7684;&amp;#xFF1A;&amp;#x4FDD;&amp;#x8BC1;&amp;#x6570;&amp;#x636E;&amp;#x7684;&amp;#x5B8C;&amp;#x6574;&amp;#x6027;&amp;#x548C;&amp;#x4E00;&amp;#x81F4;&amp;#x6027;
-&amp;#x7EA6;&amp;#x675F;&amp;#x5206;&amp;#x4E3A;&amp;#x886">
+<meta name="twitter:title" content="锁对象与读写锁">
+<meta name="twitter:description" content="&amp;#x9501;&amp;#x5BF9;&amp;#x8C61;Lock&amp;#x662F;java.util.concurrent.locks&amp;#x5305;&amp;#x4E0B;&amp;#x7684;&amp;#x63A5;&amp;#x53E3;&amp;#xFF0C;Lock &amp;#x5B9E;&amp;#x73B0;&amp;#x63D0;&amp;#x4F9B;&amp;#x4E86;&amp;#x6BD4;&amp;#x4F7F;&amp;#x7528;synchronized&amp;#x65B9;&amp;">
 
 
 
@@ -133,13 +127,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/02/11/MySQL4约束/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/03/06/锁对象与读写锁/"/>
 
 
 
 
 
-  <title> MySQL(四)--约束 | CiCi's Note </title>
+  <title> 锁对象与读写锁 | CiCi's Note </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -283,7 +277,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/11/MySQL4约束/">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/06/锁对象与读写锁/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="CiCi">
@@ -307,7 +301,7 @@
             
             
               
-                MySQL(四)--约束
+                锁对象与读写锁
               
             
           </h1>
@@ -320,8 +314,8 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-11T09:23:08+08:00">
-                2017-02-11
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-06T14:22:13+08:00">
+                2017-03-06
               </time>
             
 
@@ -339,8 +333,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/MySQL/" itemprop="url" rel="index">
-                    <span itemprop="name">MySQL</span>
+                  <a href="/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
                   </a>
                 </span>
 
@@ -354,8 +348,8 @@
             
               <span class="post-comments-count">
                 <span class="post-meta-divider">|</span>
-                <a href="/2017/02/11/MySQL4约束/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/02/11/MySQL4约束/" itemprop="commentCount"></span>
+                <a href="/2017/03/06/锁对象与读写锁/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/06/锁对象与读写锁/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -365,7 +359,7 @@
 
           
           
-             <span id="/2017/02/11/MySQL4约束/" class="leancloud_visitors" data-flag-title="MySQL(四)--约束">
+             <span id="/2017/03/06/锁对象与读写锁/" class="leancloud_visitors" data-flag-title="锁对象与读写锁">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -390,76 +384,14 @@
       
 
       
-        <h3 id="&#x7EA6;&#x675F;"><a href="#&#x7EA6;&#x675F;" class="headerlink" title="&#x7EA6;&#x675F;"></a>&#x7EA6;&#x675F;</h3><ul>
-<li>&#x7EA6;&#x675F;&#x7684;&#x76EE;&#x7684;&#xFF1A;&#x4FDD;&#x8BC1;&#x6570;&#x636E;&#x7684;&#x5B8C;&#x6574;&#x6027;&#x548C;&#x4E00;&#x81F4;&#x6027;</li>
-<li>&#x7EA6;&#x675F;&#x5206;&#x4E3A;&#x8868;&#x7EA7;&#x7EA6;&#x675F;&#x548C;&#x5217;&#x7EA7;&#x7EA6;&#x675F;<ul>
-<li>&#x5217;&#x7EA7;&#x7EA6;&#x675F;&#xFF1A;&#x7EA6;&#x675F;&#x53EA;&#x9488;&#x5BF9;&#x4E8E;&#x4E00;&#x4E2A;&#x5B57;&#x6BB5;</li>
-<li>&#x8868;&#x7EA7;&#x7EA6;&#x675F;&#xFF1A;&#x7EA6;&#x675F;&#x9488;&#x5BF9;&#x4E8E;&#x4E24;&#x4E2A;&#x6216;&#x4E24;&#x4E2A;&#x4EE5;&#x4E0A;&#x5B57;&#x6BB5;&#x4F7F;&#x7528;</li>
-</ul>
-</li>
-<li>&#x7EA6;&#x675F;&#x7C7B;&#x578B;&#x5305;&#x62EC;<ul>
-<li>&#x975E;&#x7A7A;&#x7EA6;&#x675F;&#xFF1A; <code>NOT NULL</code></li>
-<li>&#x4E3B;&#x952E;&#x7EA6;&#x675F;&#xFF1A;<code>PRIMARY KEY</code></li>
-<li>&#x552F;&#x4E00;&#x7EA6;&#x675F;&#xFF1A;<code>UNIQUE KEY</code></li>
-<li>&#x9ED8;&#x8BA4;&#x7EA6;&#x675F;&#xFF1A;<code>DEFAULT</code></li>
-<li>&#x5916;&#x952E;&#x7EA6;&#x675F;&#xFF1A;<code>FOREIGN KEY</code>&#xFF0C;&#x4FDD;&#x5B58;&#x6570;&#x636E;&#x4E00;&#x81F4;&#x6027;&#xFF0C;&#x5B8C;&#x6574;&#x6027;&#xFF0C;&#x5B9E;&#x73B0;&#x4E00;&#x5BF9;&#x4E00;&#x6216;&#x8005;&#x4E00;&#x5BF9;&#x591A;&#x7684;&#x5173;&#x7CFB;</li>
-</ul>
-</li>
-</ul>
+        <h3 id="&#x9501;&#x5BF9;&#x8C61;"><a href="#&#x9501;&#x5BF9;&#x8C61;" class="headerlink" title="&#x9501;&#x5BF9;&#x8C61;"></a>&#x9501;&#x5BF9;&#x8C61;</h3><p><code>Lock</code>&#x662F;<code>java.util.concurrent.locks</code>&#x5305;&#x4E0B;&#x7684;&#x63A5;&#x53E3;&#xFF0C;<code>Lock</code> &#x5B9E;&#x73B0;&#x63D0;&#x4F9B;&#x4E86;&#x6BD4;&#x4F7F;&#x7528;<code>synchronized</code>&#x65B9;&#x6CD5;&#x548C;&#x8BED;&#x53E5;&#x53EF;&#x83B7;&#x5F97;&#x7684;&#x66F4;&#x5E7F;&#x6CDB;&#x7684;&#x9501;&#x5B9A;&#x64CD;&#x4F5C;&#xFF0C;&#x5B83;&#x80FD;&#x4EE5;&#x66F4;&#x4F18;&#x96C5;&#x7684;&#x65B9;&#x5F0F;&#x5904;&#x7406;&#x7EBF;&#x7A0B;&#x540C;&#x6B65;&#x95EE;&#x9898;</p>
 <a id="more"></a>
-<h4 id="&#x975E;&#x7A7A;&#x7EA6;&#x675F;"><a href="#&#x975E;&#x7A7A;&#x7EA6;&#x675F;" class="headerlink" title="&#x975E;&#x7A7A;&#x7EA6;&#x675F;"></a>&#x975E;&#x7A7A;&#x7EA6;&#x675F;</h4><ul>
-<li><code>NULL</code>&#xFF0C;&#x5B57;&#x6BB5;&#x503C;&#x53EF;&#x4EE5;&#x4E3A;&#x7A7A;&#xFF08;&#x9ED8;&#x8BA4;&#x662F;&#x53EF;&#x4EE5;&#x4E3A;&#x7A7A;&#x7684;&#xFF09;</li>
-<li><code>NOT NULL</code>&#xFF0C;&#x5B57;&#x6BB5;&#x503C;&#x7981;&#x6B62;&#x4E3A;&#x7A7A;</li>
-<li>&#x8FD9;&#x91CC;&#x76F4;&#x63A5;&#x5728;&#x521B;&#x5EFA;&#x8868;&#x5355;&#x5B57;&#x6BB5;&#x7684;&#x65F6;&#x5019;&#x8BBE;&#x7F6E;<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="function">CREATE TABLE <span class="title">tb1</span><span class="params">(name VARCHAR(<span class="number">20</span>)</span> NOT NULL&#xFF0C;age TINYINT UNSIGNED NULL)</span>;</div></pre></td></tr></table></figure>
-</li>
-</ul>
-<h4 id="&#x4E3B;&#x952E;&#x7EA6;&#x675F;"><a href="#&#x4E3B;&#x952E;&#x7EA6;&#x675F;" class="headerlink" title="&#x4E3B;&#x952E;&#x7EA6;&#x675F;"></a>&#x4E3B;&#x952E;&#x7EA6;&#x675F;</h4><ul>
-<li>&#x4E3B;&#x952E;&#x53EB;&#x505A;<code>PRIMARY KEY</code></li>
-<li>&#x6BCF;&#x5F20;&#x6570;&#x636E;&#x8868;&#x53EA;&#x80FD;&#x5B58;&#x5728;&#x4E00;&#x4E2A;&#x4E3B;&#x952E;</li>
-<li>&#x4E3B;&#x952E;&#x4FDD;&#x8BC1;&#x8BB0;&#x5F55;&#x7684;&#x552F;&#x4E00;&#x6027;</li>
-<li>&#x4E3B;&#x952E;&#x81EA;&#x52A8;&#x4E3A;<code>NOT NULL</code></li>
-<li><code>AUTO_INCREMENT</code>&#x5FC5;&#x987B;&#x5B9A;&#x4E49;&#x4E3A;&#x4E3B;&#x952E;</li>
-<li>&#x4F46;&#x662F;&#x4E3B;&#x952E;&#x4E0D;&#x4E00;&#x5B9A;&#x8981;&#x548C;<code>AUTO_INCREMENT</code>&#x4E00;&#x8D77;&#x4F7F;&#x7528;</li>
-</ul>
-<h5 id="&#x81EA;&#x52A8;&#x7F16;&#x53F7;"><a href="#&#x81EA;&#x52A8;&#x7F16;&#x53F7;" class="headerlink" title="&#x81EA;&#x52A8;&#x7F16;&#x53F7;"></a>&#x81EA;&#x52A8;&#x7F16;&#x53F7;</h5><ul>
-<li>&#x5728;&#x8BB0;&#x5F55;&#x5F53;&#x4E2D;&#x8981;&#x4FDD;&#x8BC1;&#x5728;&#x4F17;&#x591A;&#x8BB0;&#x5F55;&#x5F53;&#x4E2D;&#x4E0D;&#x5B58;&#x5728;&#x91CD;&#x590D;&#x7684;&#x3002;</li>
-<li>&#x4E3A;&#x5B57;&#x6BB5;&#x6DFB;&#x52A0;<code>AUTO_INCREMENT</code>&#x5C5E;&#x6027;</li>
-<li>&#x81EA;&#x52A8;&#x7F16;&#x53F7;&#xFF0C;&#x4E14;&#x5FC5;&#x987B;&#x4E0E;&#x4E3B;&#x952E;&#x7EC4;&#x5408;&#x4F7F;&#x7528;</li>
-<li>&#x9ED8;&#x8BA4;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;&#x8D77;&#x59CB;&#x503C;&#x4E3A;1&#xFF0C;&#x6BCF;&#x6B21;&#x7684;&#x589E;&#x91CF;&#x4E3A;1</li>
-<li>&#x5FC5;&#x987B;&#x4E3A;&#x6570;&#x503C;&#x7C7B;&#x578B;&#xFF0C;&#x53EF;&#x4EE5;&#x4E3A;&#x6574;&#x578B;&#x4E5F;&#x53EF;&#x4EE5;&#x4E3A;&#x6D6E;&#x70B9;&#x7C7B;&#x578B;&#xFF0C;&#x4F46;&#x662F;&#x6D6E;&#x70B9;&#x7C7B;&#x578B;&#x65F6;&#xFF0C;&#x5C0F;&#x6570;&#x7684;&#x4F4D;&#x6570;&#x5FC5;&#x987B;&#x4E3A;0</li>
-</ul>
-<h4 id="&#x552F;&#x4E00;&#x7EA6;&#x675F;"><a href="#&#x552F;&#x4E00;&#x7EA6;&#x675F;" class="headerlink" title="&#x552F;&#x4E00;&#x7EA6;&#x675F;"></a>&#x552F;&#x4E00;&#x7EA6;&#x675F;</h4><ul>
-<li>&#x552F;&#x4E00;&#x7EA6;&#x675F;<code>UNIQUE KEY</code>&#x53EF;&#x4EE5;&#x4FDD;&#x8BC1;&#x8BB0;&#x5F55;&#x7684;&#x552F;&#x4E00;&#x6027;</li>
-<li>&#x552F;&#x4E00;&#x7EA6;&#x675F;&#x7684;&#x5B57;&#x6BB5;&#x53EF;&#x4EE5;&#x4E3A;&#x7A7A;&#x503C;(NULL)</li>
-<li>&#x6BCF;&#x5F20;&#x6570;&#x636E;&#x8868;&#x53EF;&#x4EE5;&#x5B58;&#x5728;&#x591A;&#x4E2A;&#x552F;&#x4E00;&#x7EA6;&#x675F;</li>
-</ul>
-<h4 id="&#x9ED8;&#x8BA4;&#x7EA6;&#x675F;"><a href="#&#x9ED8;&#x8BA4;&#x7EA6;&#x675F;" class="headerlink" title="&#x9ED8;&#x8BA4;&#x7EA6;&#x675F;"></a>&#x9ED8;&#x8BA4;&#x7EA6;&#x675F;</h4><ul>
-<li>&#x5728;&#x63D2;&#x5165;&#x8BB0;&#x5F55;&#x65F6;&#xFF0C;&#x5982;&#x679C;&#x6CA1;&#x6709;&#x660E;&#x786E;&#x4E3A;&#x6B64;&#x5B57;&#x6BB5;&#x8D4B;&#x503C;&#xFF0C;&#x90A3;&#x4E48;&#x7CFB;&#x7EDF;&#x4F1A;&#x8D4B;&#x4E88;&#x9ED8;&#x8BA4;&#x503C;</li>
-</ul>
-<h4 id="&#x5916;&#x952E;&#x7EA6;&#x675F;"><a href="#&#x5916;&#x952E;&#x7EA6;&#x675F;" class="headerlink" title="&#x5916;&#x952E;&#x7EA6;&#x675F;"></a>&#x5916;&#x952E;&#x7EA6;&#x675F;</h4><p>&#x5916;&#x952E;&#x7EA6;&#x675F;&#x662F;&#x4EC0;&#x4E48;&#x5462;&#xFF0C;&#x662F;&#x4E00;&#x79CD;&#x7EA6;&#x675F;&#xFF0C;&#x662F;&#x5728;&#x4E00;&#x4E2A;&#x5B50;&#x8868;&#x4E2D;&#x7684;&#x67D0;&#x4E2A;&#x5217;&#x5F15;&#x7528;&#x53E6;&#x4E00;&#x4E2A;&#x8868;&#x53EB;&#x505A;&#x7236;&#x8868;&#x7684;&#x5217;&#x3002;</p>
-<ul>
-<li>&#x7236;&#x8868;&#x548C;&#x5B50;&#x8868;&#x5FC5;&#x987B;&#x4F7F;&#x7528;&#x76F8;&#x540C;&#x7684;&#x5B58;&#x50A8;&#xFF08;&#x5B50;&#x8868;&#xFF1A;&#x5177;&#x6709;&#x5916;&#x952E;&#x5217;&#x7684;&#x8868;&#xFF0C;&#x5B50;&#x8868;&#x6240;&#x53C2;&#x7167;&#x7684;&#x8868;&#x4E3A;&#x7236;&#x8868;&#xFF09;&#x5F15;&#x64CE;&#xFF0C;&#x800C;&#x4E14;&#x7981;&#x6B62;&#x4F7F;&#x7528;&#x4E34;&#x65F6;&#x8868;</li>
-<li>&#x6570;&#x636E;&#x8868;&#x7684;&#x5B58;&#x50A8;&#x5F15;&#x64CE;&#x53EA;&#x80FD;&#x4E3A;<code>InnoDB</code>&#xFF0C;&#x5728; <strong>my.ini</strong> &#x6587;&#x6863;&#x4E2D;&#x4FEE;&#x6539;</li>
-<li>&#x5916;&#x952E;&#x5217;&#x548C;&#x53C2;&#x7167;&#x5217;&#x5FC5;&#x987B;&#x5177;&#x6709;&#x76F8;&#x4F3C;&#x7684;&#x6570;&#x636E;&#x7C7B;&#x578B;&#xFF0C;&#x5176;&#x4E2D;&#x6570;&#x5B57;&#x7684;&#x957F;&#x5EA6;&#x6216;&#x662F;&#x5426;&#x6709;&#x7B26;&#x53F7;&#x4F4D;&#x5FC5;&#x987B;&#x76F8;&#x540C;&#xFF0C;&#x800C;&#x5B57;&#x7B26;&#x7684;&#x957F;&#x5EA6;&#x5219;&#x53EF;&#x4EE5;&#x4E0D;&#x540C;</li>
-<li>&#x5916;&#x952E;&#x5217;&#x548C;&#x53C2;&#x7167;&#x5217;&#x5FC5;&#x987B;&#x521B;&#x5EFA;&#x7D22;&#x5F15;&#xFF0C;&#x5982;&#x679C;&#x5916;&#x952E;&#x5217;&#x4E0D;&#x5B58;&#x5728;&#x7D22;&#x5F15;&#x7684;&#x8BDD;&#xFF0C;MySQL&#x5C06;&#x81EA;&#x52A8;&#x521B;&#x5EFA;&#x7D22;&#x5F15;&#x3002;<br>&#x8BED;&#x6CD5;&#x683C;&#x5F0F;&#xFF1A;<br><code>FOREIGN KEY (xxx) REFERENCES &#x7236;&#x7C7B;&#x540D;&#x79F0; (xx)</code><br>&#x5728;&#x5B50;&#x7C7B;&#x521B;&#x5EFA;&#x65F6;&#x52A0;&#x4E00;&#x6761;&#x8BED;&#x53E5;&#xFF0C;&#x662F;&#x8BF4;&#x5B50;&#x7C7B;&#x4E2D;&#x7684;&#x54EA;&#x4E2A;&#x5B57;&#x6BB5;&#x662F;&#x53C2;&#x7167;&#x4E86;&#x7236;&#x7C7B;&#x4E2D;&#x7684;&#x90A3;&#x4E2A;&#x5B57;&#x6BB5;&#x4E86;</li>
-</ul>
-<h4 id="MySQL&#x5916;&#x952E;&#x7EA6;&#x675F;&#x7684;&#x53C2;&#x7167;&#x64CD;&#x4F5C;"><a href="#MySQL&#x5916;&#x952E;&#x7EA6;&#x675F;&#x7684;&#x53C2;&#x7167;&#x64CD;&#x4F5C;" class="headerlink" title="MySQL&#x5916;&#x952E;&#x7EA6;&#x675F;&#x7684;&#x53C2;&#x7167;&#x64CD;&#x4F5C;"></a>MySQL&#x5916;&#x952E;&#x7EA6;&#x675F;&#x7684;&#x53C2;&#x7167;&#x64CD;&#x4F5C;</h4><p>&#x662F;&#x6307;&#x5916;&#x952E;&#x7EA6;&#x675F;&#x66F4;&#x65B0;&#x8868;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x5B50;&#x8868;&#x662F;&#x5426;&#x4E5F;&#x8FDB;&#x884C;&#x76F8;&#x5E94;&#x7684;&#x64CD;&#x4F5C;</p>
-<ul>
-<li><code>CASCADE</code>&#xFF1A;&#x4ECE;&#x7236;&#x8868;&#x5220;&#x9664;&#x6216;&#x66F4;&#x65B0;&#x4E14;&#x81EA;&#x52A8;&#x5220;&#x9664;&#x6216;&#x66F4;&#x65B0;&#x5B50;&#x8868;&#x4E2D;&#x5339;&#x914D;&#x7684;&#x884C;</li>
-<li><code>SET NULL</code>&#xFF1A;&#x4ECE;&#x7236;&#x8868;&#x5220;&#x9664;&#x6216;&#x66F4;&#x65B0;&#x884C;&#xFF0C;&#x5E76;&#x8BBE;&#x7F6E;&#x5B50;&#x8868;&#x4E2D;&#x7684;&#x5916;&#x952E;&#x5217;&#x4E3A;NULL&#x3002;&#x5982;&#x679C;&#x4F7F;&#x7528;&#x8BE5;&#x9009;&#x9879;&#xFF0C;&#x5FC5;&#x987B;&#x4FDD;&#x8BC1;&#x5B50;&#x8868;&#x5217;&#x6CA1;&#x6709;&#x6307;&#x5B9A;NOT NULL</li>
-<li><code>RESTRICT</code>&#xFF1A;&#x62D2;&#x7EDD;&#x5BF9;&#x7236;&#x8868;&#x7684;&#x5220;&#x9664;&#x6216;&#x66F4;&#x65B0;&#x64CD;&#x4F5C;</li>
-<li><code>NO ACTION</code>&#xFF1A;&#x6807;&#x51C6;SQL&#x7684;&#x5173;&#x952E;&#x5B57;&#xFF0C;&#x5728;MySQL&#x4E2D;&#x4E0E;<code>RESTRICT</code>&#x76F8;&#x540C;<br>&#x5728;&#x5B9E;&#x9645;&#x4E2D;&#xFF0C;&#x5F88;&#x5C11;&#x4F7F;&#x7528;&#x7269;&#x7406;&#x7684;&#x5916;&#x952E;&#x7EA6;&#x675F;&#xFF0C;&#x800C;&#x662F;&#x4F7F;&#x7528;&#x903B;&#x8F91;&#x7684;&#x5916;&#x952E;&#x7EA6;&#x675F;</li>
-</ul>
-<h4 id="MySQL&#x8868;&#x7EA7;&#x7EA6;&#x675F;&#x4E0E;&#x5217;&#x7EA7;&#x7EA6;&#x675F;"><a href="#MySQL&#x8868;&#x7EA7;&#x7EA6;&#x675F;&#x4E0E;&#x5217;&#x7EA7;&#x7EA6;&#x675F;" class="headerlink" title="MySQL&#x8868;&#x7EA7;&#x7EA6;&#x675F;&#x4E0E;&#x5217;&#x7EA7;&#x7EA6;&#x675F;"></a>MySQL&#x8868;&#x7EA7;&#x7EA6;&#x675F;&#x4E0E;&#x5217;&#x7EA7;&#x7EA6;&#x675F;</h4><ul>
-<li>&#x5BF9;&#x4E00;&#x4E2A;&#x6570;&#x636E;&#x5217;&#x5EFA;&#x7ACB;&#x7684;&#x7EA6;&#x675F;&#xFF0C;&#x79F0;&#x4E3A;&#x5217;&#x7EA7;&#x7EA6;&#x675F;</li>
-<li>&#x5BF9;&#x591A;&#x4E2A;&#x6570;&#x636E;&#x5217;&#x5EFA;&#x7ACB;&#x7684;&#x7EA6;&#x675F;&#xFF0C;&#x79F0;&#x4E3A;&#x8868;&#x7EA7;&#x7EA6;&#x675F;</li>
-<li>&#x5217;&#x7EA7;&#x7EA6;&#x675F;&#x65E2;&#x53EF;&#x4EE5;&#x5728;&#x5217;&#x5B9A;&#x4E49;&#x65F6;&#x58F0;&#x660E;&#xFF0C;&#x4E5F;&#x53EF;&#x4EE5;&#x5728;&#x5217;&#x5B9A;&#x4E49;&#x540E;&#x58F0;&#x660E;</li>
-<li>&#x8868;&#x7EA7;&#x7EA6;&#x675F;&#x53EA;&#x80FD;&#x5728;&#x5217;&#x5B9A;&#x4E49;&#x540E;&#x58F0;&#x660E;</li>
-<li>&#x5217;&#x7EA7;&#x7EA6;&#x675F;&#x5373;&#x5B57;&#x6BB5;&#x7EA7;&#x7EA6;&#x675F;&#xFF0C;&#x7528;&#x4E8E;&#x9650;&#x5236;&#x5B57;&#x6BB5;&#x53D6;&#x503C;&#x8303;&#x56F4;&#xFF0C;&#x5E38;&#x901A;&#x8FC7;&#x5B57;&#x6BB5;&#x6709;&#x6548;&#x6027;&#x89C4;&#x5219;&#x6765;&#x5B9E;&#x73B0;&#xFF0C;&#x6BD4;&#x5982;&#xFF1A;&#x6027;&#x522B;&#x53EA;&#x80FD;&#x662F;&#x7537;&#x6216;&#x5973;</li>
-<li>&#x8868;&#x7EA7;&#x7EA6;&#x675F;&#x53CA;&#x5B57;&#x6BB5;&#x95F4;&#x7EA6;&#x675F;&#xFF0C;&#x7528;&#x4E8E;&#x9650;&#x5236;&#x4E24;&#x4E2A;&#x5B57;&#x6BB5;&#x95F4;&#x7684;&#x53D6;&#x503C;&#x7EA6;&#x675F;&#xFF0C;&#x6BD4;&#x5982;&#xFF1A;&#x5165;&#x5B66;&#x65E5;&#x671F;&#x5927;&#x4E8E;&#x51FA;&#x751F;&#x65E5;&#x671F;&#x3002;</li>
-<li>&#x5217;&#x7EA7;&#x7EA6;&#x675F;&#x6709;&#xFF1A;<code>NOT NULL</code>,<code>DEFAULT</code>&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x548C;&#x5176;&#x4ED6;&#x7684;&#x5B57;&#x6BB5;&#x6CA1;&#x5173;&#x7CFB;&#x3002;</li>
-<li>&#x8868;&#x7EA7;&#x7EA6;&#x675F;&#x6709;&#xFF1A;<code>PRIMARY KEY</code>,<code>UNIQUE KEY</code>,<code>FOREIGN KEY</code>&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x53EF;&#x4EE5;&#x548C;&#x5176;&#x4ED6;&#x5B57;&#x6BB5;&#x6709;&#x5173;&#x7CFB;&#x3002;</li>
-</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LockTest</span> </span>{ </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>{ </div><div class="line">        <span class="keyword">final</span> Outputter1 output = <span class="keyword">new</span> Outputter1(); </div><div class="line">        <span class="keyword">new</span> Thread() { </div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>{ </div><div class="line">                output.output(<span class="string">&quot;zhangsan&quot;</span>); </div><div class="line">            }; </div><div class="line">        }.start();       </div><div class="line">        <span class="keyword">new</span> Thread() { </div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>{ </div><div class="line">                output.output(<span class="string">&quot;lisi&quot;</span>); </div><div class="line">            }; </div><div class="line">        }.start(); </div><div class="line">    } </div><div class="line">} </div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Outputter1</span> </span>{ </div><div class="line">    <span class="keyword">private</span> Lock lock = <span class="keyword">new</span> ReentrantLock();<span class="comment">// &#x65B0;&#x5EFA;&#x9501;&#x5BF9;&#x8C61; </span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">output</span><span class="params">(String name)</span> </span>{ </div><div class="line">        <span class="comment">// TODO &#x7EBF;&#x7A0B;&#x8F93;&#x51FA;&#x65B9;&#x6CD5; </span></div><div class="line">        lock.lock();<span class="comment">// &#x5F97;&#x5230;&#x9501; </span></div><div class="line">        <span class="keyword">try</span> { </div><div class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; name.length(); i++) { </div><div class="line">                System.out.print(name.charAt(i)); </div><div class="line">            } </div><div class="line">        } <span class="keyword">finally</span> { </div><div class="line">            lock.unlock();<span class="comment">// &#x91CA;&#x653E;&#x9501; </span></div><div class="line">        } </div><div class="line">    } </div><div class="line">}</div></pre></td></tr></table></figure>
+<p>&#x8FD9;&#x6837;&#x5C31;&#x5B9E;&#x73B0;&#x4E86;&#x548C;<code>sychronized</code>&#x4E00;&#x6837;&#x7684;&#x540C;&#x6B65;&#x6548;&#x679C;&#xFF0C;&#x9700;&#x8981;&#x6CE8;&#x610F;&#x7684;&#x662F;&#xFF0C;&#x7528;<code>sychronized</code>&#x4FEE;&#x9970;&#x7684;&#x65B9;&#x6CD5;&#x6216;&#x8005;&#x8BED;&#x53E5;&#x5757;&#x5728;&#x4EE3;&#x7801;&#x6267;&#x884C;&#x5B8C;&#x4E4B;&#x540E;&#x9501;&#x81EA;&#x52A8;&#x91CA;&#x653E;&#xFF0C;&#x800C;&#x7528;<code>Lock</code>&#x9700;&#x8981;&#x6211;&#x4EEC;&#x624B;&#x52A8;&#x91CA;&#x653E;&#x9501;&#xFF0C;&#x6240;&#x4EE5;&#x4E3A;&#x4E86;&#x4FDD;&#x8BC1;&#x9501;&#x6700;&#x7EC8;&#x88AB;&#x91CA;&#x653E;(&#x53D1;&#x751F;&#x5F02;&#x5E38;&#x60C5;&#x51B5;)&#xFF0C;&#x8981;&#x628A;&#x4E92;&#x65A5;&#x533A;&#x653E;&#x5728;try&#x5185;&#xFF0C;&#x91CA;&#x653E;&#x9501;&#x653E;&#x5728;<code>finally</code>&#x5185;&#x3002;</p>
+<p>&#x5982;&#x679C;&#x8BF4;&#x8FD9;&#x5C31;&#x662F;<code>Lock</code>&#xFF0C;&#x90A3;&#x4E48;&#x5B83;&#x4E0D;&#x80FD;&#x6210;&#x4E3A;&#x540C;&#x6B65;&#x95EE;&#x9898;&#x66F4;&#x5B8C;&#x7F8E;&#x7684;&#x5904;&#x7406;&#x65B9;&#x5F0F;&#xFF0C;&#x4E0B;&#x9762;&#x8981;&#x4ECB;&#x7ECD;&#x7684;&#x662F;&#x8BFB;&#x5199;&#x9501;<code>ReadWriteLock</code>&#xFF0C;&#x6211;&#x4EEC;&#x4F1A;&#x6709;&#x4E00;&#x79CD;&#x9700;&#x6C42;&#xFF0C;&#x5728;&#x5BF9;&#x6570;&#x636E;&#x8FDB;&#x884C;&#x8BFB;&#x5199;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x4E3A;&#x4E86;&#x4FDD;&#x8BC1;&#x6570;&#x636E;&#x7684;&#x4E00;&#x81F4;&#x6027;&#x548C;&#x5B8C;&#x6574;&#x6027;&#xFF0C;&#x9700;&#x8981;&#x8BFB;&#x548C;&#x5199;&#x662F;&#x4E92;&#x65A5;&#x7684;&#xFF0C;&#x5199;&#x548C;&#x5199;&#x662F;&#x4E92;&#x65A5;&#x7684;&#xFF0C;&#x4F46;&#x662F;&#x8BFB;&#x548C;&#x8BFB;&#x662F;&#x4E0D;&#x9700;&#x8981;&#x4E92;&#x65A5;&#x7684;&#xFF0C;&#x8FD9;&#x6837;&#x8BFB;&#x548C;&#x8BFB;&#x4E0D;&#x4E92;&#x65A5;&#x6027;&#x80FD;&#x66F4;&#x9AD8;&#x4E9B;&#xFF0C;&#x6240;&#x4EE5;&#x6211;&#x4EEC;&#x5F15;&#x5165;&#x4E86;&#x8BFB;&#x5199;&#x9501;&#xFF0C;&#x4EE5;&#x63D0;&#x9AD8;&#x7CFB;&#x7EDF;&#x6548;&#x7387;</p>
+<h3 id="&#x8BFB;&#x5199;&#x9501;"><a href="#&#x8BFB;&#x5199;&#x9501;" class="headerlink" title="&#x8BFB;&#x5199;&#x9501;"></a>&#x8BFB;&#x5199;&#x9501;</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Data</span> </span>{     </div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> data;<span class="comment">// &#x5171;&#x4EAB;&#x6570;&#x636E; </span></div><div class="line">    <span class="keyword">private</span> ReadWriteLock rwl = <span class="keyword">new</span> ReentrantReadWriteLock();     </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">set</span><span class="params">(<span class="keyword">int</span> data)</span> </span>{ </div><div class="line">        rwl.writeLock().lock();<span class="comment">// &#x53D6;&#x5230;&#x5199;&#x9501; </span></div><div class="line">        <span class="keyword">try</span> { </div><div class="line">            System.out.println(Thread.currentThread().getName() + <span class="string">&quot;&#x51C6;&#x5907;&#x5199;&#x5165;&#x6570;&#x636E;&quot;</span>); </div><div class="line">            <span class="keyword">try</span> { </div><div class="line">                Thread.sleep(<span class="number">20</span>); </div><div class="line">            } <span class="keyword">catch</span> (InterruptedException e) { </div><div class="line">                e.printStackTrace(); </div><div class="line">            } </div><div class="line">            <span class="keyword">this</span>.data = data; </div><div class="line">            System.out.println(Thread.currentThread().getName() + <span class="string">&quot;&#x5199;&#x5165;&quot;</span> + <span class="keyword">this</span>.data); </div><div class="line">        } <span class="keyword">finally</span> { </div><div class="line">            rwl.writeLock().unlock();<span class="comment">// &#x91CA;&#x653E;&#x5199;&#x9501; </span></div><div class="line">        } </div><div class="line">    }     </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">get</span><span class="params">()</span> </span>{ </div><div class="line">        rwl.readLock().lock();<span class="comment">// &#x53D6;&#x5230;&#x8BFB;&#x9501; </span></div><div class="line">        <span class="keyword">try</span> { </div><div class="line">            System.out.println(Thread.currentThread().getName() + <span class="string">&quot;&#x51C6;&#x5907;&#x8BFB;&#x53D6;&#x6570;&#x636E;&quot;</span>); </div><div class="line">            <span class="keyword">try</span> { </div><div class="line">                Thread.sleep(<span class="number">20</span>); </div><div class="line">            } <span class="keyword">catch</span> (InterruptedException e) { </div><div class="line">                e.printStackTrace(); </div><div class="line">            } </div><div class="line">            System.out.println(Thread.currentThread().getName() + <span class="string">&quot;&#x8BFB;&#x53D6;&quot;</span> + <span class="keyword">this</span>.data); </div><div class="line">        } <span class="keyword">finally</span> { </div><div class="line">            rwl.readLock().unlock();<span class="comment">// &#x91CA;&#x653E;&#x8BFB;&#x9501; </span></div><div class="line">        } </div><div class="line">    } </div><div class="line">}</div></pre></td></tr></table></figure>
+<p>&#x8FD9;&#x6837;&#xFF0C;&#x5C31;&#x5B9E;&#x73B0;&#x4E86;&#xFF0C;&#x8BFB;&#x5199;&#x4E92;&#x65A5;&#xFF0C;&#x5199;&#x5199;&#x4E92;&#x65A5;&#xFF0C;&#x4F46;&#x662F;&#x8BFB;&#x8BFB;&#x5171;&#x4EAB;&#xFF0C;&#x4F7F;&#x5F97;&#x4EE3;&#x7801;&#x5F88;&#x4F18;&#x96C5;~~</p>
+<h3 id="&#x53C2;&#x8003;&#x6587;&#x732E;"><a href="#&#x53C2;&#x8003;&#x6587;&#x732E;" class="headerlink" title="&#x53C2;&#x8003;&#x6587;&#x732E;"></a>&#x53C2;&#x8003;&#x6587;&#x732E;</h3><p>&#x5173;&#x4E8E;&#x7EBF;&#x7A0B;&#x65B9;&#x9762;&#x7684;&#x77E5;&#x8BC6;&#xFF0C;&#x5F88;&#x591A;&#x90FD;&#x662F;&#x53C2;&#x8003;&#x4E86;&#x9AD8;&#x723D;&#x5148;&#x751F;&#x7684;&#x7EBF;&#x7A0B;&#x4E13;&#x680F;&#xFF0C;&#x53D7;&#x76CA;&#x9887;&#x591A;<br><a href="http://blog.csdn.net/ghsau/article/details/17609747" target="_blank" rel="external">Java&#x7EBF;&#x7A0B;&#x4E13;&#x680F;&#x6587;&#x7AE0;&#x6C47;&#x603B;</a><br><a href="http://blog.csdn.net/ghsau/article/details/7461369" target="_blank" rel="external">Java&#x7EBF;&#x7A0B;(&#x516B;)&#xFF1A;&#x9501;&#x5BF9;&#x8C61;Lock-&#x540C;&#x6B65;&#x95EE;&#x9898;&#x66F4;&#x5B8C;&#x7F8E;&#x7684;&#x5904;&#x7406;&#x65B9;&#x5F0F;</a></p>
 
       
     </div>
@@ -483,7 +415,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/MySQL/" rel="tag"># MySQL</a>
+            <a href="/tags/Java/" rel="tag"># Java</a>
+          
+            <a href="/tags/多线程/" rel="tag"># 多线程</a>
           
         </div>
       
@@ -492,8 +426,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/02/11/MySQL3操作数据表/" rel="next" title="MySQL(三)--操作数据表">
-                <i class="fa fa-chevron-left"></i> MySQL(三)--操作数据表
+              <a href="/2017/03/04/初涉线程池/" rel="next" title="初涉线程池">
+                <i class="fa fa-chevron-left"></i> 初涉线程池
               </a>
             
           </div>
@@ -502,8 +436,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/02/14/MySQL5操作数据表中的记录/" rel="prev" title="MySQL(五)--操作数据表中的记录">
-                MySQL(五)--操作数据表中的记录 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/03/06/Callable与Future/" rel="prev" title="Callable与Future">
+                Callable与Future <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -553,8 +487,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2017/02/11/MySQL4约束/"
-           data-title="MySQL(四)--约束" data-url="http://yoursite.com/2017/02/11/MySQL4约束/">
+      <div class="ds-thread" data-thread-key="2017/03/06/锁对象与读写锁/"
+           data-title="锁对象与读写锁" data-url="http://yoursite.com/2017/03/06/锁对象与读写锁/">
       </div>
     
   </div>
@@ -680,7 +614,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#约束"><span class="nav-number">1.</span> <span class="nav-text">约束</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#非空约束"><span class="nav-number">1.1.</span> <span class="nav-text">非空约束</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#主键约束"><span class="nav-number">1.2.</span> <span class="nav-text">主键约束</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#自动编号"><span class="nav-number">1.2.1.</span> <span class="nav-text">自动编号</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#唯一约束"><span class="nav-number">1.3.</span> <span class="nav-text">唯一约束</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#默认约束"><span class="nav-number">1.4.</span> <span class="nav-text">默认约束</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#外键约束"><span class="nav-number">1.5.</span> <span class="nav-text">外键约束</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MySQL外键约束的参照操作"><span class="nav-number">1.6.</span> <span class="nav-text">MySQL外键约束的参照操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MySQL表级约束与列级约束"><span class="nav-number">1.7.</span> <span class="nav-text">MySQL表级约束与列级约束</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#锁对象"><span class="nav-number">1.</span> <span class="nav-text">锁对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#读写锁"><span class="nav-number">2.</span> <span class="nav-text">读写锁</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考文献"><span class="nav-number">3.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
             
 
           </div>
