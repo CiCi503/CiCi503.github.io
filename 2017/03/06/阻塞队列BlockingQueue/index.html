@@ -74,7 +74,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="MySQL," />
+  <meta name="keywords" content="Java,多线程," />
 
 
 
@@ -90,16 +90,16 @@
 
 
 
-<meta name="description" content="MySQL&amp;#x5E38;&amp;#x7528;&amp;#x547D;&amp;#x4EE4;&amp;#x4EE5;&amp;#x53CA;&amp;#x8BED;&amp;#x6CD5;&amp;#x89C4;&amp;#x8303;&amp;#x542F;&amp;#x52A8;MySQL12shell&amp;gt;net start mysql57 //cmd&amp;#x4EE5;&amp;#x7BA1;&amp;#x7406;&amp;#x5458;&amp;#x8EAB;&amp;#x4EFD;&amp;#x8FD0;&amp;#x8">
+<meta name="description" content="&amp;#x963B;&amp;#x585E;&amp;#x961F;&amp;#x5217;BlockingQueue&amp;#x5BF9;&amp;#x4E8E;&amp;#x8BB8;&amp;#x591A;&amp;#x7EBF;&amp;#x7A0B;&amp;#x95EE;&amp;#x9898;&amp;#xFF0C;&amp;#x53EF;&amp;#x4EE5;&amp;#x901A;&amp;#x8FC7;&amp;#x4F7F;&amp;#x7528;&amp;#x4E00;&amp;#x4E2A;&amp;#x6216;&amp;#x591A;&amp;#x">
 <meta property="og:type" content="article">
-<meta property="og:title" content="MySQL(一)--基本命令">
-<meta property="og:url" content="http://yoursite.com/2017/02/11/MySQL1基本命令/index.html">
+<meta property="og:title" content="阻塞队列BlockingQueue">
+<meta property="og:url" content="http://yoursite.com/2017/03/06/阻塞队列BlockingQueue/index.html">
 <meta property="og:site_name" content="CiCi's Note">
-<meta property="og:description" content="MySQL&amp;#x5E38;&amp;#x7528;&amp;#x547D;&amp;#x4EE4;&amp;#x4EE5;&amp;#x53CA;&amp;#x8BED;&amp;#x6CD5;&amp;#x89C4;&amp;#x8303;&amp;#x542F;&amp;#x52A8;MySQL12shell&amp;gt;net start mysql57 //cmd&amp;#x4EE5;&amp;#x7BA1;&amp;#x7406;&amp;#x5458;&amp;#x8EAB;&amp;#x4EFD;&amp;#x8FD0;&amp;#x8">
-<meta property="og:updated_time" content="2017-02-11T02:28:26.655Z">
+<meta property="og:description" content="&amp;#x963B;&amp;#x585E;&amp;#x961F;&amp;#x5217;BlockingQueue&amp;#x5BF9;&amp;#x4E8E;&amp;#x8BB8;&amp;#x591A;&amp;#x7EBF;&amp;#x7A0B;&amp;#x95EE;&amp;#x9898;&amp;#xFF0C;&amp;#x53EF;&amp;#x4EE5;&amp;#x901A;&amp;#x8FC7;&amp;#x4F7F;&amp;#x7528;&amp;#x4E00;&amp;#x4E2A;&amp;#x6216;&amp;#x591A;&amp;#x">
+<meta property="og:updated_time" content="2017-03-06T14:46:07.440Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="MySQL(一)--基本命令">
-<meta name="twitter:description" content="MySQL&amp;#x5E38;&amp;#x7528;&amp;#x547D;&amp;#x4EE4;&amp;#x4EE5;&amp;#x53CA;&amp;#x8BED;&amp;#x6CD5;&amp;#x89C4;&amp;#x8303;&amp;#x542F;&amp;#x52A8;MySQL12shell&amp;gt;net start mysql57 //cmd&amp;#x4EE5;&amp;#x7BA1;&amp;#x7406;&amp;#x5458;&amp;#x8EAB;&amp;#x4EFD;&amp;#x8FD0;&amp;#x8">
+<meta name="twitter:title" content="阻塞队列BlockingQueue">
+<meta name="twitter:description" content="&amp;#x963B;&amp;#x585E;&amp;#x961F;&amp;#x5217;BlockingQueue&amp;#x5BF9;&amp;#x4E8E;&amp;#x8BB8;&amp;#x591A;&amp;#x7EBF;&amp;#x7A0B;&amp;#x95EE;&amp;#x9898;&amp;#xFF0C;&amp;#x53EF;&amp;#x4EE5;&amp;#x901A;&amp;#x8FC7;&amp;#x4F7F;&amp;#x7528;&amp;#x4E00;&amp;#x4E2A;&amp;#x6216;&amp;#x591A;&amp;#x">
 
 
 
@@ -127,13 +127,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/02/11/MySQL1基本命令/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/03/06/阻塞队列BlockingQueue/"/>
 
 
 
 
 
-  <title> MySQL(一)--基本命令 | CiCi's Note </title>
+  <title> 阻塞队列BlockingQueue | CiCi's Note </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -277,7 +277,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/11/MySQL1基本命令/">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/06/阻塞队列BlockingQueue/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="CiCi">
@@ -301,7 +301,7 @@
             
             
               
-                MySQL(一)--基本命令
+                阻塞队列BlockingQueue
               
             
           </h1>
@@ -314,8 +314,8 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-11T09:22:03+08:00">
-                2017-02-11
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-06T22:44:41+08:00">
+                2017-03-06
               </time>
             
 
@@ -333,8 +333,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/MySQL/" itemprop="url" rel="index">
-                    <span itemprop="name">MySQL</span>
+                  <a href="/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
                   </a>
                 </span>
 
@@ -348,8 +348,8 @@
             
               <span class="post-comments-count">
                 <span class="post-meta-divider">|</span>
-                <a href="/2017/02/11/MySQL1基本命令/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/02/11/MySQL1基本命令/" itemprop="commentCount"></span>
+                <a href="/2017/03/06/阻塞队列BlockingQueue/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/06/阻塞队列BlockingQueue/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -359,7 +359,7 @@
 
           
           
-             <span id="/2017/02/11/MySQL1基本命令/" class="leancloud_visitors" data-flag-title="MySQL(一)--基本命令">
+             <span id="/2017/03/06/阻塞队列BlockingQueue/" class="leancloud_visitors" data-flag-title="阻塞队列BlockingQueue">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -384,33 +384,53 @@
       
 
       
-        <h3 id="MySQL&#x5E38;&#x7528;&#x547D;&#x4EE4;&#x4EE5;&#x53CA;&#x8BED;&#x6CD5;&#x89C4;&#x8303;"><a href="#MySQL&#x5E38;&#x7528;&#x547D;&#x4EE4;&#x4EE5;&#x53CA;&#x8BED;&#x6CD5;&#x89C4;&#x8303;" class="headerlink" title="MySQL&#x5E38;&#x7528;&#x547D;&#x4EE4;&#x4EE5;&#x53CA;&#x8BED;&#x6CD5;&#x89C4;&#x8303;"></a>MySQL&#x5E38;&#x7528;&#x547D;&#x4EE4;&#x4EE5;&#x53CA;&#x8BED;&#x6CD5;&#x89C4;&#x8303;</h3><h4 id="&#x542F;&#x52A8;MySQL"><a href="#&#x542F;&#x52A8;MySQL" class="headerlink" title="&#x542F;&#x52A8;MySQL"></a>&#x542F;&#x52A8;MySQL</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">shell&gt;net start mysql57 <span class="comment">//cmd&#x4EE5;&#x7BA1;&#x7406;&#x5458;&#x8EAB;&#x4EFD;&#x8FD0;&#x884C;</span></div><div class="line">&#x4ECE;windows&#x670D;&#x52A1;&#x4E2D;&#x542F;&#x52A8;</div></pre></td></tr></table></figure>
-<h4 id="&#x767B;&#x5F55;MySQL"><a href="#&#x767B;&#x5F55;MySQL" class="headerlink" title="&#x767B;&#x5F55;MySQL"></a>&#x767B;&#x5F55;MySQL</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">mysql -uroot -p password</div><div class="line">&#x53C2;&#x6570;&#xFF1A;-d &#x6253;&#x5F00;&#x6307;&#x5B9A;&#x7684;&#x6570;&#x636E;&#x5E93;</div><div class="line">-h &#x670D;&#x52A1;&#x5668;&#x540D;&#x79F0;</div><div class="line">-p &#x7AEF;&#x53E3;&#x53F7;</div><div class="line">-u &#x7528;&#x6237;&#x540D;</div><div class="line">-p &#x5BC6;&#x7801;</div><div class="line">&#x2013;prompt &#x6307;&#x5B9A;&#x63D0;&#x793A;&#x7B26;</div></pre></td></tr></table></figure>
+        <h2 id="&#x963B;&#x585E;&#x961F;&#x5217;BlockingQueue"><a href="#&#x963B;&#x585E;&#x961F;&#x5217;BlockingQueue" class="headerlink" title="&#x963B;&#x585E;&#x961F;&#x5217;BlockingQueue"></a>&#x963B;&#x585E;&#x961F;&#x5217;BlockingQueue</h2><p>&#x5BF9;&#x4E8E;&#x8BB8;&#x591A;&#x7EBF;&#x7A0B;&#x95EE;&#x9898;&#xFF0C;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x4F7F;&#x7528;&#x4E00;&#x4E2A;&#x6216;&#x591A;&#x4E2A;&#x961F;&#x5217;&#x4EE5;&#x4F18;&#x96C5;&#x800C;&#x4E14;&#x5B89;&#x5168;&#x7684;&#x65B9;&#x5F0F;&#x5C06;&#x5176;&#x5F62;&#x5F0F;&#x5316;&#x3002;&#x751F;&#x4EA7;&#x8005;&#x7EBF;&#x7A0B;&#x5411;&#x961F;&#x5217;&#x63D2;&#x5165;&#x5143;&#x7D20;&#xFF0C;&#x6D88;&#x8D39;&#x8005;&#x7EBF;&#x7A0B;&#x5C06;&#x53D6;&#x51FA;&#x4ED6;&#x4EEC;&#x3002;&#x4F7F;&#x7528;&#x961F;&#x5217;&#xFF0C;&#x53EF;&#x4EE5;&#x5B89;&#x5168;&#x5730;&#x4ECE;&#x4E00;&#x4E2A;&#x7EBF;&#x7A0B;&#x5411;&#x53E6;&#x4E00;&#x4E2A;&#x7EBF;&#x7A0B;&#x4F20;&#x9012;&#x6570;&#x636E;&#x3002;&#x5C3D;&#x53EF;&#x80FD;&#x5730;&#x8FDC;&#x79BB;&#x4E86;&#x5E95;&#x5C42;&#x7ED3;&#x6784;<br>&#x5F53;&#x8BD5;&#x56FE;&#x5411;&#x961F;&#x5217;&#x6DFB;&#x52A0;&#x5143;&#x7D20;&#x800C;&#x961F;&#x5217;&#x5DF2;&#x6EE1;&#xFF0C;&#x6216;&#x662F;&#x60F3;&#x4ECE;&#x961F;&#x5217;&#x79FB;&#x9664;&#x5143;&#x7D20;&#x800C;&#x961F;&#x5217;&#x4E3A;&#x7A7A;&#x65F6;&#xFF0C;&#x963B;&#x585E;&#x961F;&#x5217;&#x4F1A;&#x5BFC;&#x81F4;&#x7EBF;&#x7A0B;&#x963B;&#x585E;</p>
 <a id="more"></a>
-<h4 id="&#x9000;&#x51FA;MySQL"><a href="#&#x9000;&#x51FA;MySQL" class="headerlink" title="&#x9000;&#x51FA;MySQL"></a>&#x9000;&#x51FA;MySQL</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">exit</div><div class="line">quit</div><div class="line">\q</div></pre></td></tr></table></figure>
-<h4 id="MySQL&#x5E38;&#x7528;&#x547D;&#x4EE4;"><a href="#MySQL&#x5E38;&#x7528;&#x547D;&#x4EE4;" class="headerlink" title="MySQL&#x5E38;&#x7528;&#x547D;&#x4EE4;"></a>MySQL&#x5E38;&#x7528;&#x547D;&#x4EE4;</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function">SELECT <span class="title">VERSION</span><span class="params">()</span></span>;  <span class="comment">//&#x663E;&#x793A;&#x5F53;&#x524D;&#x670D;&#x52A1;&#x5668;&#x7248;&#x672C;</span></div><div class="line"><span class="function">SELECT <span class="title">NOW</span><span class="params">()</span></span>; <span class="comment">//&#x663E;&#x793A;&#x5F53;&#x524D;&#x65E5;&#x671F;&#x65F6;&#x95F4;</span></div><div class="line"><span class="function">SELECT <span class="title">USER</span><span class="params">()</span></span>; <span class="comment">//&#x663E;&#x793A;&#x5F53;&#x524D;&#x7528;&#x6237;</span></div><div class="line"><span class="function">SELECT <span class="title">DATABASE</span><span class="params">()</span></span>; <span class="comment">//&#x663E;&#x793A;&#x5F53;&#x524D;&#x6570;&#x636E;&#x5E93;</span></div></pre></td></tr></table></figure>
-<h4 id="MySQL&#x8BED;&#x53E5;&#x7684;&#x89C4;&#x8303;"><a href="#MySQL&#x8BED;&#x53E5;&#x7684;&#x89C4;&#x8303;" class="headerlink" title="MySQL&#x8BED;&#x53E5;&#x7684;&#x89C4;&#x8303;"></a>MySQL&#x8BED;&#x53E5;&#x7684;&#x89C4;&#x8303;</h4><ul>
-<li>&#x5173;&#x952E;&#x5B57;&#x4E0E;&#x51FD;&#x6570;&#x540D;&#x79F0;&#x5168;&#x90E8;&#x5927;&#x5199;</li>
-<li>&#x6570;&#x636E;&#x5E93;&#x540D;&#x79F0;&#x3001;&#x8868;&#x540D;&#x79F0;&#x3001;&#x5B57;&#x6BB5;&#x540D;&#x79F0;&#x5C0F;&#x5199;</li>
-<li>SQL&#x8BED;&#x53E5;&#x5FC5;&#x987B;&#x4EE5;&#x5206;&#x53F7;&#x7ED3;&#x675F;</li>
-</ul>
-<h3 id="&#x64CD;&#x4F5C;&#x6570;&#x636E;&#x5E93;"><a href="#&#x64CD;&#x4F5C;&#x6570;&#x636E;&#x5E93;" class="headerlink" title="&#x64CD;&#x4F5C;&#x6570;&#x636E;&#x5E93;"></a>&#x64CD;&#x4F5C;&#x6570;&#x636E;&#x5E93;</h3><h4 id="&#x521B;&#x5EFA;&#x6570;&#x636E;&#x5E93;"><a href="#&#x521B;&#x5EFA;&#x6570;&#x636E;&#x5E93;" class="headerlink" title="&#x521B;&#x5EFA;&#x6570;&#x636E;&#x5E93;"></a>&#x521B;&#x5EFA;&#x6570;&#x636E;&#x5E93;</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">CREATE {DATEBASE | SCHEMA} [IF NOT EXISTS] db_name [DEFAULT] CHARACTER SET[=] charset_name</div></pre></td></tr></table></figure>
-<ul>
-<li>&#x5176;&#x4E2D;&#xFF0C;<code>{}</code>&#x662F;&#x5FC5;&#x9009;&#x7684;&#xFF0C;<code>|</code>&#x8868;&#x793A;&#x5DE6;&#x53F3;&#x4E24;&#x4E2A;&#x9009;&#x62E9;&#x4E00;&#x4E2A;&#xFF0C;<code>[]</code>&#x662F;&#x53EF;&#x6709;&#x53EF;&#x65E0;&#x7684;</li>
-<li>&#x4F8B;&#x5982;&#xFF0C; &#x4E00;&#x4E2A;&#x540D;&#x4E3A;t1&#x7684;&#x6570;&#x636E;&#x5E93;&#xFF0C;&#x547D;&#x4EE4;&#x4E3A;<code>CREAT DATABASE t1;</code></li>
-<li><code>CHARACTER SET</code>&#x4F7F;&#x7528;&#x7684;&#x5B57;&#x7B26;&#x96C6;&#xFF0C;&#x9ED8;&#x8BA4;&#x4E3A;<code>utf-8</code></li>
-<li>&#x67E5;&#x770B;&#x521B;&#x5EFA;&#x7684;&#x6570;&#x636E;&#x5E93;&#x4FE1;&#x606F;&#xFF1A;<code>SHOW CREATE DATABASE db_name</code></li>
-<li><code>IF NOT EXISTS</code>&#x8BED;&#x53E5;&#xFF0C;&#x53EF;&#x4EE5;&#x907F;&#x514D;&#x5DF2;&#x7ECF; &#x5B58;&#x5728;&#x540C;&#x540D;&#x6570;&#x636E;&#x5E93;&#x65F6;&#x7684;&#x62A5;&#x9519;&#x95EE;&#x9898;&#xFF0C;&#x52A0;&#x4E0A;&#x8FD9;&#x6761;&#x8BED;&#x53E5;&#x53EA;&#x4F1A;&#x51FA;&#x4E00;&#x4E2A;&#x8B66;&#x544A;</li>
-<li>&#x67E5;&#x770B;&#x8B66;&#x544A;&#xFF1A;<code>SHOW WARNINGS</code></li>
-</ul>
-<h4 id="&#x67E5;&#x770B;&#x5F53;&#x524D;&#x670D;&#x52A1;&#x5668;&#x4E0B;&#x7684;&#x6570;&#x636E;&#x8868;&#x5217;&#x8868;"><a href="#&#x67E5;&#x770B;&#x5F53;&#x524D;&#x670D;&#x52A1;&#x5668;&#x4E0B;&#x7684;&#x6570;&#x636E;&#x8868;&#x5217;&#x8868;" class="headerlink" title="&#x67E5;&#x770B;&#x5F53;&#x524D;&#x670D;&#x52A1;&#x5668;&#x4E0B;&#x7684;&#x6570;&#x636E;&#x8868;&#x5217;&#x8868;"></a>&#x67E5;&#x770B;&#x5F53;&#x524D;&#x670D;&#x52A1;&#x5668;&#x4E0B;&#x7684;&#x6570;&#x636E;&#x8868;&#x5217;&#x8868;</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SHOW {DATABASES | SCHEMAS} [LIKE <span class="string">&apos;pattern&apos;</span> | WHERE expr]</div></pre></td></tr></table></figure>
-<h4 id="&#x4FEE;&#x6539;&#x6570;&#x636E;&#x5E93;"><a href="#&#x4FEE;&#x6539;&#x6570;&#x636E;&#x5E93;" class="headerlink" title="&#x4FEE;&#x6539;&#x6570;&#x636E;&#x5E93;"></a>&#x4FEE;&#x6539;&#x6570;&#x636E;&#x5E93;</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ALTER {DATABASE | SCHEMA} [db_name] [DEFAULT] CHARACTER SET [=] charset_name</div></pre></td></tr></table></figure>
-<h4 id="&#x5220;&#x9664;&#x6570;&#x636E;&#x5E93;"><a href="#&#x5220;&#x9664;&#x6570;&#x636E;&#x5E93;" class="headerlink" title="&#x5220;&#x9664;&#x6570;&#x636E;&#x5E93;"></a>&#x5220;&#x9664;&#x6570;&#x636E;&#x5E93;</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">DROP {DATABASE | SCHEMA} IF EXISTS</div><div class="line"> db_name</div></pre></td></tr></table></figure>
-<h3 id="&#x4FEE;&#x6539;MySQL&#x63D0;&#x793A;&#x7B26;"><a href="#&#x4FEE;&#x6539;MySQL&#x63D0;&#x793A;&#x7B26;" class="headerlink" title="&#x4FEE;&#x6539;MySQL&#x63D0;&#x793A;&#x7B26;"></a>&#x4FEE;&#x6539;MySQL&#x63D0;&#x793A;&#x7B26;</h3><h4 id="MySQL&#x63D0;&#x793A;&#x7B26;&#x4FEE;&#x6539;&#x65B9;&#x6CD5;"><a href="#MySQL&#x63D0;&#x793A;&#x7B26;&#x4FEE;&#x6539;&#x65B9;&#x6CD5;" class="headerlink" title="MySQL&#x63D0;&#x793A;&#x7B26;&#x4FEE;&#x6539;&#x65B9;&#x6CD5;"></a>MySQL&#x63D0;&#x793A;&#x7B26;&#x4FEE;&#x6539;&#x65B9;&#x6CD5;</h4><ol>
-<li>&#x8FDE;&#x63A5;&#x5BA2;&#x6237;&#x7AEF;&#x7684;&#x65F6;&#x5019;&#x901A;&#x8FC7;&#x53C2;&#x6570;&#x6307;&#x5B9A;<br><code>shell &gt;mysql -u&#x7528;&#x6237;&#x540D; -p&#x5BC6;&#x7801; --prompt&#x63D0;&#x793A;&#x7B26;</code></li>
-<li>&#x8FDE;&#x63A5;&#x4E0A;&#x5BA2;&#x6237;&#x7AEF;&#x540E;&#xFF0C;&#x901A;&#x8FC7;<code>prompt</code>&#x547D;&#x4EE4;&#x6765;&#x4FEE;&#x6539;&#x63D0;&#x793A;&#x7B26; <code>prompt &#x63D0;&#x793A;&#x7B26;</code></li>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Item</th>
+<th style="text-align:right">&#x629B;&#x51FA;&#x5F02;&#x5E38;</th>
+<th style="text-align:center">&#x7279;&#x6B8A;&#x503C;</th>
+<th>&#x963B;&#x585E;</th>
+<th>&#x8D85;&#x65F6;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">&#x63D2;&#x5165;</td>
+<td style="text-align:right">add(e)</td>
+<td style="text-align:center">offer(e)</td>
+<td>put(e)</td>
+<td>offer(e, time, unit)</td>
+</tr>
+<tr>
+<td style="text-align:left">&#x79FB;&#x9664;</td>
+<td style="text-align:right">remove()</td>
+<td style="text-align:center">poll()</td>
+<td>take()</td>
+<td>poll(time, unit)</td>
+</tr>
+<tr>
+<td style="text-align:left">&#x68C0;&#x67E5;</td>
+<td style="text-align:right">element()</td>
+<td style="text-align:center">peek()</td>
+<td>&#x4E0D;&#x53EF;&#x7528;</td>
+<td>&#x4E0D;&#x53EF;&#x7528;</td>
+</tr>
+</tbody>
+</table>
+<p> BlockingQueue&#x662F;&#x4E2A;&#x63A5;&#x53E3;&#xFF0C;&#x6709;&#x5982;&#x4E0B;&#x5B9E;&#x73B0;&#x7C7B;&#xFF1A;</p>
+<ol>
+<li><code>ArrayBlockQueue</code>&#xFF1A;&#x4E00;&#x4E2A;&#x7531;&#x6570;&#x7EC4;&#x652F;&#x6301;&#x7684;&#x6709;&#x754C;&#x963B;&#x585E;&#x961F;&#x5217;&#x3002;&#x6B64;&#x961F;&#x5217;&#x6309; FIFO&#xFF08;&#x5148;&#x8FDB;&#x5148;&#x51FA;&#xFF09;&#x539F;&#x5219;&#x5BF9;&#x5143;&#x7D20;&#x8FDB;&#x884C;&#x6392;&#x5E8F;&#x3002;&#x521B;&#x5EFA;&#x5176;&#x5BF9;&#x8C61;&#x5FC5;&#x987B;&#x660E;&#x786E;&#x5927;&#x5C0F;&#xFF0C;&#x50CF;&#x6570;&#x7EC4;&#x4E00;&#x6837;&#x3002;</li>
+<li><p><code>LinkedBlockQueue</code>&#xFF1A;&#x4E00;&#x4E2A;&#x53EF;&#x6539;&#x53D8;&#x5927;&#x5C0F;&#x7684;&#x963B;&#x585E;&#x961F;&#x5217;&#x3002;&#x6B64;&#x961F;&#x5217;&#x6309; FIFO&#xFF08;&#x5148;&#x8FDB;&#x5148;&#x51FA;&#xFF09;&#x539F;&#x5219;&#x5BF9;&#x5143;&#x7D20;&#x8FDB;&#x884C;&#x6392;&#x5E8F;&#x3002;&#x521B;&#x5EFA;&#x5176;&#x5BF9;&#x8C61;&#x5982;&#x679C;&#x6CA1;&#x6709;&#x660E;&#x786E;&#x5927;&#x5C0F;&#xFF0C;&#x9ED8;&#x8BA4;&#x503C;&#x662F;Integer.MAX_VALUE&#x3002;&#x94FE;&#x63A5;&#x961F;&#x5217;&#x7684;&#x541E;&#x5410;&#x91CF;&#x901A;&#x5E38;&#x8981;&#x9AD8;&#x4E8E;&#x57FA;&#x4E8E;&#x6570;&#x7EC4;&#x7684;&#x961F;&#x5217;&#xFF0C;&#x4F46;&#x662F;&#x5728;&#x5927;&#x591A;&#x6570;&#x5E76;&#x53D1;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x4E2D;&#xFF0C;&#x5176;&#x53EF;&#x9884;&#x77E5;&#x7684;&#x6027;&#x80FD;&#x8981;&#x4F4E;&#x3002; </p>
+</li>
+<li><p><code>PriorityBlockingQueue</code>&#xFF1A;&#x7C7B;&#x4F3C;&#x4E8E;LinkedBlockingQueue&#xFF0C;&#x4F46;&#x5176;&#x6240;&#x542B;&#x5BF9;&#x8C61;&#x7684;&#x6392;&#x5E8F;&#x4E0D;&#x662F;FIFO&#xFF0C;&#x800C;&#x662F;&#x4F9D;&#x636E;&#x5BF9;&#x8C61;&#x7684;&#x81EA;&#x7136;&#x6392;&#x5E8F;&#x987A;&#x5E8F;&#x6216;&#x8005;&#x662F;&#x6784;&#x9020;&#x51FD;&#x6570;&#x6240;&#x5E26;&#x7684;Comparator&#x51B3;&#x5B9A;&#x7684;&#x987A;&#x5E8F;&#x3002;</p>
+</li>
+<li><p><code>SynchronousQueue</code>&#xFF1A;&#x540C;&#x6B65;&#x961F;&#x5217;&#x3002;&#x540C;&#x6B65;&#x961F;&#x5217;&#x6CA1;&#x6709;&#x4EFB;&#x4F55;&#x5BB9;&#x91CF;&#xFF0C;&#x6BCF;&#x4E2A;&#x63D2;&#x5165;&#x5FC5;&#x987B;&#x7B49;&#x5F85;&#x53E6;&#x4E00;&#x4E2A;&#x7EBF;&#x7A0B;&#x79FB;&#x9664;&#xFF0C;&#x53CD;&#x4E4B;&#x4EA6;&#x7136;&#x3002;</p>
+</li>
 </ol>
-<h4 id="MySQL&#x63D0;&#x793A;&#x7B26;&#x53EF;&#x4EE5;&#x4FEE;&#x6539;&#x7684;&#x5185;&#x5BB9;"><a href="#MySQL&#x63D0;&#x793A;&#x7B26;&#x53EF;&#x4EE5;&#x4FEE;&#x6539;&#x7684;&#x5185;&#x5BB9;" class="headerlink" title="MySQL&#x63D0;&#x793A;&#x7B26;&#x53EF;&#x4EE5;&#x4FEE;&#x6539;&#x7684;&#x5185;&#x5BB9;"></a>MySQL&#x63D0;&#x793A;&#x7B26;&#x53EF;&#x4EE5;&#x4FEE;&#x6539;&#x7684;&#x5185;&#x5BB9;</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">\D <span class="comment">//&#x5B8C;&#x6574;&#x7684;&#x65E5;&#x671F;</span></div><div class="line">\d <span class="comment">//&#x5F53;&#x524D;&#x6570;&#x636E;&#x5E93;</span></div><div class="line">\h <span class="comment">//&#x670D;&#x52A1;&#x5668;&#x540D;&#x79F0;</span></div><div class="line">\u <span class="comment">//&#x5F53;&#x524D;&#x7528;&#x6237;</span></div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/** &#x5B9A;&#x4E49;&#x4E00;&#x4E2A;&#x76D8;&#x5B50;&#x7C7B;&#xFF0C;&#x53EF;&#x4EE5;&#x653E;&#x9E21;&#x86CB;&#x548C;&#x53D6;&#x9E21;&#x86CB; */</span>  </div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BigPlate</span> </span>{  </div><div class="line">  </div><div class="line">    <span class="comment">/** &#x88C5;&#x9E21;&#x86CB;&#x7684;&#x76D8;&#x5B50;&#xFF0C;&#x5927;&#x5C0F;&#x4E3A;5 */</span>  </div><div class="line">    <span class="keyword">private</span> BlockingQueue&lt;Object&gt; eggs = <span class="keyword">new</span> ArrayBlockingQueue&lt;Object&gt;(<span class="number">5</span>);  </div><div class="line">      </div><div class="line">    <span class="comment">/** &#x653E;&#x9E21;&#x86CB; */</span>  </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">putEgg</span><span class="params">(Object egg)</span> </span>{  </div><div class="line">        <span class="keyword">try</span> {  </div><div class="line">            eggs.put(egg);<span class="comment">// &#x5411;&#x76D8;&#x5B50;&#x672B;&#x5C3E;&#x653E;&#x4E00;&#x4E2A;&#x9E21;&#x86CB;&#xFF0C;&#x5982;&#x679C;&#x76D8;&#x5B50;&#x6EE1;&#x4E86;&#xFF0C;&#x5F53;&#x524D;&#x7EBF;&#x7A0B;&#x963B;&#x585E;  </span></div><div class="line">        } <span class="keyword">catch</span> (InterruptedException e) {  </div><div class="line">            e.printStackTrace();  </div><div class="line">        }  </div><div class="line">  </div><div class="line">        <span class="comment">// &#x4E0B;&#x9762;&#x8F93;&#x51FA;&#x6709;&#x65F6;&#x4E0D;&#x51C6;&#x786E;&#xFF0C;&#x56E0;&#x4E3A;&#x4E0E;put&#x64CD;&#x4F5C;&#x4E0D;&#x662F;&#x4E00;&#x4E2A;&#x539F;&#x5B50;&#x64CD;&#x4F5C;  </span></div><div class="line">        System.out.println(<span class="string">&quot;&#x653E;&#x5165;&#x9E21;&#x86CB;&quot;</span>);  </div><div class="line">    }  </div><div class="line">      </div><div class="line">    <span class="comment">/** &#x53D6;&#x9E21;&#x86CB; */</span>  </div><div class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">getEgg</span><span class="params">()</span> </span>{  </div><div class="line">        Object egg = <span class="keyword">null</span>;  </div><div class="line">        <span class="keyword">try</span> {  </div><div class="line">            egg = eggs.take();<span class="comment">// &#x4ECE;&#x76D8;&#x5B50;&#x5F00;&#x59CB;&#x53D6;&#x4E00;&#x4E2A;&#x9E21;&#x86CB;&#xFF0C;&#x5982;&#x679C;&#x76D8;&#x5B50;&#x7A7A;&#x4E86;&#xFF0C;&#x5F53;&#x524D;&#x7EBF;&#x7A0B;&#x963B;&#x585E;  </span></div><div class="line">        } <span class="keyword">catch</span> (InterruptedException e) {  </div><div class="line">            e.printStackTrace();  </div><div class="line">        }  </div><div class="line">  </div><div class="line">        <span class="comment">// &#x4E0B;&#x9762;&#x8F93;&#x51FA;&#x6709;&#x65F6;&#x4E0D;&#x51C6;&#x786E;&#xFF0C;&#x56E0;&#x4E3A;&#x4E0E;take&#x64CD;&#x4F5C;&#x4E0D;&#x662F;&#x4E00;&#x4E2A;&#x539F;&#x5B50;&#x64CD;&#x4F5C;  </span></div><div class="line">        System.out.println(<span class="string">&quot;&#x62FF;&#x5230;&#x9E21;&#x86CB;&quot;</span>);  </div><div class="line">        <span class="keyword">return</span> egg;  </div><div class="line">    }  </div><div class="line">      </div><div class="line">    <span class="comment">/** &#x653E;&#x9E21;&#x86CB;&#x7EBF;&#x7A0B; */</span>  </div><div class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">AddThread</span> <span class="keyword">extends</span> <span class="title">Thread</span> </span>{  </div><div class="line">        <span class="keyword">private</span> BigPlate plate;  </div><div class="line">        <span class="keyword">private</span> Object egg = <span class="keyword">new</span> Object();  </div><div class="line">  </div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="title">AddThread</span><span class="params">(BigPlate plate)</span> </span>{  </div><div class="line">            <span class="keyword">this</span>.plate = plate;  </div><div class="line">        }  </div><div class="line">  </div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>{  </div><div class="line">            plate.putEgg(egg);  </div><div class="line">        }  </div><div class="line">    }  </div><div class="line">  </div><div class="line">    <span class="comment">/** &#x53D6;&#x9E21;&#x86CB;&#x7EBF;&#x7A0B; */</span>  </div><div class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">GetThread</span> <span class="keyword">extends</span> <span class="title">Thread</span> </span>{  </div><div class="line">        <span class="keyword">private</span> BigPlate plate;  </div><div class="line">  </div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="title">GetThread</span><span class="params">(BigPlate plate)</span> </span>{  </div><div class="line">            <span class="keyword">this</span>.plate = plate;  </div><div class="line">        }  </div><div class="line">  </div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>{  </div><div class="line">            plate.getEgg();  </div><div class="line">        }  </div><div class="line">    }  </div><div class="line">      </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>{  </div><div class="line">        BigPlate plate = <span class="keyword">new</span> BigPlate();  </div><div class="line">        <span class="comment">// &#x5148;&#x542F;&#x52A8;10&#x4E2A;&#x653E;&#x9E21;&#x86CB;&#x7EBF;&#x7A0B;  </span></div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) {  </div><div class="line">            <span class="keyword">new</span> Thread(<span class="keyword">new</span> AddThread(plate)).start();  </div><div class="line">        }  </div><div class="line">        <span class="comment">// &#x518D;&#x542F;&#x52A8;10&#x4E2A;&#x53D6;&#x9E21;&#x86CB;&#x7EBF;&#x7A0B;  </span></div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) {  </div><div class="line">            <span class="keyword">new</span> Thread(<span class="keyword">new</span> GetThread(plate)).start();  </div><div class="line">        }  </div><div class="line">    }</div></pre></td></tr></table></figure>
 
       
     </div>
@@ -434,7 +454,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/MySQL/" rel="tag"># MySQL</a>
+            <a href="/tags/Java/" rel="tag"># Java</a>
+          
+            <a href="/tags/多线程/" rel="tag"># 多线程</a>
           
         </div>
       
@@ -443,8 +465,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/02/10/MySQL的安装与配置/" rel="next" title="MySQL(零)--MySQL的安装与配置">
-                <i class="fa fa-chevron-left"></i> MySQL(零)--MySQL的安装与配置
+              <a href="/2017/03/06/Callable与Future/" rel="next" title="Callable与Future">
+                <i class="fa fa-chevron-left"></i> Callable与Future
               </a>
             
           </div>
@@ -452,10 +474,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/02/11/MySQL2数据类型/" rel="prev" title="MySQL(二)--数据类型">
-                MySQL(二)--数据类型 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -504,8 +522,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2017/02/11/MySQL1基本命令/"
-           data-title="MySQL(一)--基本命令" data-url="http://yoursite.com/2017/02/11/MySQL1基本命令/">
+      <div class="ds-thread" data-thread-key="2017/03/06/阻塞队列BlockingQueue/"
+           data-title="阻塞队列BlockingQueue" data-url="http://yoursite.com/2017/03/06/阻塞队列BlockingQueue/">
       </div>
     
   </div>
@@ -631,7 +649,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#MySQL常用命令以及语法规范"><span class="nav-number">1.</span> <span class="nav-text">MySQL常用命令以及语法规范</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#启动MySQL"><span class="nav-number">1.1.</span> <span class="nav-text">启动MySQL</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#登录MySQL"><span class="nav-number">1.2.</span> <span class="nav-text">登录MySQL</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#退出MySQL"><span class="nav-number">1.3.</span> <span class="nav-text">退出MySQL</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MySQL常用命令"><span class="nav-number">1.4.</span> <span class="nav-text">MySQL常用命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MySQL语句的规范"><span class="nav-number">1.5.</span> <span class="nav-text">MySQL语句的规范</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#操作数据库"><span class="nav-number">2.</span> <span class="nav-text">操作数据库</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#创建数据库"><span class="nav-number">2.1.</span> <span class="nav-text">创建数据库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查看当前服务器下的数据表列表"><span class="nav-number">2.2.</span> <span class="nav-text">查看当前服务器下的数据表列表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#修改数据库"><span class="nav-number">2.3.</span> <span class="nav-text">修改数据库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#删除数据库"><span class="nav-number">2.4.</span> <span class="nav-text">删除数据库</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改MySQL提示符"><span class="nav-number">3.</span> <span class="nav-text">修改MySQL提示符</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#MySQL提示符修改方法"><span class="nav-number">3.1.</span> <span class="nav-text">MySQL提示符修改方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MySQL提示符可以修改的内容"><span class="nav-number">3.2.</span> <span class="nav-text">MySQL提示符可以修改的内容</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#阻塞队列BlockingQueue"><span class="nav-number">1.</span> <span class="nav-text">阻塞队列BlockingQueue</span></a></li></ol></div>
             
 
           </div>
