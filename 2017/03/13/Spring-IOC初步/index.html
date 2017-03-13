@@ -1,0 +1,1187 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Cataneo BT:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Java,Spring," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="Spring IOCSpring IOC&amp;#x662F;&amp;#x5E72;&amp;#x5565;&amp;#x7684;IOC&amp;#xFF0C;Inversion Of Control&amp;#xFF0C;&amp;#x5B57;&amp;#x9762;&amp;#x4E0A;&amp;#x7406;&amp;#x89E3;&amp;#x662F;&amp;#x63A7;&amp;#x5236;&amp;#x53CD;&amp;#x8F6C;&amp;#xFF0C;&amp;#x662F;&amp;#x4EC0;&amp;#x4E">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring IOC初步">
+<meta property="og:url" content="http://yoursite.com/2017/03/13/Spring-IOC初步/index.html">
+<meta property="og:site_name" content="CiCi's Note">
+<meta property="og:description" content="Spring IOCSpring IOC&amp;#x662F;&amp;#x5E72;&amp;#x5565;&amp;#x7684;IOC&amp;#xFF0C;Inversion Of Control&amp;#xFF0C;&amp;#x5B57;&amp;#x9762;&amp;#x4E0A;&amp;#x7406;&amp;#x89E3;&amp;#x662F;&amp;#x63A7;&amp;#x5236;&amp;#x53CD;&amp;#x8F6C;&amp;#xFF0C;&amp;#x662F;&amp;#x4EC0;&amp;#x4E">
+<meta property="og:image" content="http://i1.piimg.com/585015/fd86c170e1982823.png">
+<meta property="og:updated_time" content="2017-03-13T02:43:27.559Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Spring IOC初步">
+<meta name="twitter:description" content="Spring IOCSpring IOC&amp;#x662F;&amp;#x5E72;&amp;#x5565;&amp;#x7684;IOC&amp;#xFF0C;Inversion Of Control&amp;#xFF0C;&amp;#x5B57;&amp;#x9762;&amp;#x4E0A;&amp;#x7406;&amp;#x89E3;&amp;#x662F;&amp;#x63A7;&amp;#x5236;&amp;#x53CD;&amp;#x8F6C;&amp;#xFF0C;&amp;#x662F;&amp;#x4EC0;&amp;#x4E">
+<meta name="twitter:image" content="http://i1.piimg.com/585015/fd86c170e1982823.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/03/13/Spring-IOC初步/"/>
+
+
+
+
+
+  <title> Spring IOC初步 | CiCi's Note </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">CiCi's Note</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Welcome to CiCi's Note</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/13/Spring-IOC初步/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="CiCi">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="CiCi's Note">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="CiCi's Note" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Spring IOC初步
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-13T10:42:03+08:00">
+                2017-03-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Spring/" itemprop="url" rel="index">
+                    <span itemprop="name">Spring</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <a href="/2017/03/13/Spring-IOC初步/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/13/Spring-IOC初步/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2017/03/13/Spring-IOC初步/" class="leancloud_visitors" data-flag-title="Spring IOC初步">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读量 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="Spring-IOC"><a href="#Spring-IOC" class="headerlink" title="Spring IOC"></a>Spring IOC</h2><h3 id="Spring-IOC&#x662F;&#x5E72;&#x5565;&#x7684;"><a href="#Spring-IOC&#x662F;&#x5E72;&#x5565;&#x7684;" class="headerlink" title="Spring IOC&#x662F;&#x5E72;&#x5565;&#x7684;"></a>Spring IOC&#x662F;&#x5E72;&#x5565;&#x7684;</h3><p>IOC&#xFF0C;Inversion Of Control&#xFF0C;&#x5B57;&#x9762;&#x4E0A;&#x7406;&#x89E3;&#x662F;&#x63A7;&#x5236;&#x53CD;&#x8F6C;&#xFF0C;&#x662F;&#x4EC0;&#x4E48;&#x7684;&#x63A7;&#x5236;&#x88AB;&#x53CD;&#x8F6C;&#x4E86;&#x5462;&#xFF0C;&#x662F;&#x83B7;&#x5F97;&#x5BF9;&#x8C61;&#x5BF9;&#x8C61;&#x7684;&#x8FC7;&#x7A0B;&#x88AB;&#x53CD;&#x8F6C;&#x4E86;&#x3002;&#x539F;&#x6765;&#x6211;&#x4EEC;&#x662F;&#x600E;&#x6837;&#x83B7;&#x53D6;&#x5BF9;&#x8C61;&#x7684;&#x5462;&#xFF0C;&#x6211;&#x4EEC;&#x9700;&#x8981;&#x4E00;&#x4E2A;&#x5BF9;&#x8C61;&#x7684;&#x65F6;&#x5019;&#x5C31;new&#x4E00;&#x4E2A;&#x5BF9;&#x8C61;&#x51FA;&#x6765;&#xFF0C;&#x662F;&#x81EA;&#x5DF1;&#x751F;&#x4EA7;&#x5BF9;&#x8C61;&#x3002;&#x90A3;IOC&#x662F;&#x600E;&#x6837;&#x83B7;&#x53D6;&#x5BF9;&#x8C61;&#x5462;&#xFF0C;&#x662F;&#x6709;&#x4E00;&#x4E2A;&#x5BF9;&#x8C61;&#x5DE5;&#x5382;BeanFactory&#xFF0C;&#x8D1F;&#x8D23;&#x751F;&#x4EA7;&#x5BF9;&#x8C61;&#xFF0C;&#x5F53;&#x6211;&#x4EEC;&#x9700;&#x8981;&#x5BF9;&#x8C61;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x4ECE;BeanFactory&#x4E2D;&#x62FF;&#x8FC7;&#x6765;&#x7528;&#x3002;</p>
+<a id="more"></a>
+<p>DI&#xFF0C;Dependency Injection&#xFF0C;&#x4F9D;&#x8D56;&#x6CE8;&#x5165;&#xFF0C;&#x6307;&#x7684;&#x662F;&#x4E00;&#x4E2A;&#x7C7B;A&#x4E2D;&#x6709;&#x6210;&#x5458;&#x53D8;&#x91CF;&#x662F;B&#x7C7B;&#x7684;&#x5BF9;&#x8C61;&#xFF0C;&#x90A3;&#x4E48;&#x600E;&#x4E48;&#x5F97;&#x5230;&#x8FD9;&#x4E2A;&#x5BF9;&#x8C61;&#x5462;&#xFF0C;&#x539F;&#x6765;&#x6211;&#x4EEC;&#x662F;&#x600E;&#x4E48;&#x505A;&#x7684;&#x554A;&#xFF0C;&#x662F;&#x9700;&#x8981;&#x8FD9;&#x4E2A;&#x5BF9;&#x8C61;&#x5C31;new&#x51FA;&#x6765;&#x561B;&#x3002;&#x4F46;&#x662F;DI&#x662F;&#x7531;IOC&#x5BB9;&#x5668;&#x5728;&#x8FD0;&#x884C;&#x671F;&#x95F4;&#xFF0C;&#x52A8;&#x6001;&#x5730;&#x5C06;&#x67D0;&#x79CD;&#x4F9D;&#x8D56;&#x5173;&#x7CFB;&#x6CE8;&#x5165;&#x5230;&#x5BF9;&#x8C61;&#x4E4B;&#x4E2D;&#x3002;Spring&#x6709;&#x4E24;&#x79CD;&#x6CE8;&#x5165;&#x65B9;&#x5F0F;&#xFF0C;&#x8BBE;&#x503C;&#x6CE8;&#x5165;&#x548C;&#x6784;&#x9020;&#x6CE8;&#x5165;&#xFF0C;&#x7A0D;&#x540E;&#x6211;&#x4EEC;&#x4F1A;&#x8BE6;&#x7EC6;&#x4ECB;&#x7ECD;&#x3002;</p>
+<h3 id="Spring-IOC&#x600E;&#x4E48;&#x7528;"><a href="#Spring-IOC&#x600E;&#x4E48;&#x7528;" class="headerlink" title="Spring IOC&#x600E;&#x4E48;&#x7528;"></a>Spring IOC&#x600E;&#x4E48;&#x7528;</h3><p>&#x77E5;&#x9053;&#x4E86;IOC&#x662F;&#x5565;&#x4EE5;&#x540E;&#xFF0C;&#x6211;&#x4EEC;&#x5C31;&#x8981;&#x5173;&#x5FC3;&#x600E;&#x4E48;&#x4F7F;&#x7528;&#x7684;&#x95EE;&#x9898;&#x4E86;&#x3002;&#x6709;&#x4E24;&#x79CD;&#x65B9;&#x5F0F;&#xFF0C;&#x4E00;&#x79CD;&#x662F;&#x901A;&#x8FC7;XML&#x6587;&#x4EF6;&#x7684;&#x914D;&#x7F6E;&#xFF0C;&#x53E6;&#x4E00;&#x79CD;&#x662F;&#x901A;&#x8FC7;&#x6CE8;&#x89E3;&#x6765;&#x914D;&#x7F6E;&#x3002;</p>
+<h4 id="Spring&#x5BB9;&#x5668;"><a href="#Spring&#x5BB9;&#x5668;" class="headerlink" title="Spring&#x5BB9;&#x5668;"></a>Spring&#x5BB9;&#x5668;</h4><h5 id="Spring&#x5BB9;&#x5668;&#x662F;&#x4EC0;&#x4E48;"><a href="#Spring&#x5BB9;&#x5668;&#x662F;&#x4EC0;&#x4E48;" class="headerlink" title="Spring&#x5BB9;&#x5668;&#x662F;&#x4EC0;&#x4E48;"></a>Spring&#x5BB9;&#x5668;&#x662F;&#x4EC0;&#x4E48;</h5><p>Spring&#x5BB9;&#x5668;&#x662F;&#x751F;&#x6210;Bean&#x7684;&#x5DE5;&#x5382;&#xFF0C;&#x5E76;&#x7BA1;&#x7406;&#x5BB9;&#x5668;&#x4E2D;&#x7684;Bean&#x3002;Bean&#x662F;Spring&#x7BA1;&#x7406;&#x7684;&#x57FA;&#x672C;&#x5355;&#x4F4D;</p>
+<p>Spring&#x6709;&#x4E24;&#x4E2A;&#x6838;&#x5FC3;&#x63A5;&#x53E3;&#xFF0C;BeanFactory&#x548C;ApplicationContext&#xFF0C;&#x5176;&#x4E2D;ApplicationContext&#x662F;BeanFactory&#x7684;&#x5B50;&#x63A5;&#x53E3;&#xFF0C;&#x4E5F;&#x88AB;&#x79F0;&#x4E3A;Spring&#x4E0A;&#x4E0B;&#x6587;&#x3002;&#x4ED6;&#x4EEC;&#x90FD;&#x53EF;&#x4EE5;&#x4EE3;&#x8868;Spring&#x5BB9;&#x5668;</p>
+<h5 id="BeanFactory&#x7684;&#x57FA;&#x672C;&#x65B9;&#x6CD5;"><a href="#BeanFactory&#x7684;&#x57FA;&#x672C;&#x65B9;&#x6CD5;" class="headerlink" title="BeanFactory&#x7684;&#x57FA;&#x672C;&#x65B9;&#x6CD5;"></a>BeanFactory&#x7684;&#x57FA;&#x672C;&#x65B9;&#x6CD5;</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">boolean</span> <span class="title">containsBean</span><span class="params">(String name)</span></span></div><div class="line"></div><div class="line">&lt;T&gt; T <span class="title">getBean</span> <span class="params">(Class&lt;T&gt;requiredType)</span></div><div class="line"></div><div class="line">Object <span class="title">getBean</span><span class="params">(String name)</span></div><div class="line"></div><div class="line">&lt;T&gt; T <span class="title">getBean</span><span class="params">(String name, Class&lt;T&gt; requiredType)</span></div></pre></td></tr></table></figure>
+<h6 id="&#x4F20;&#x5165;Xml&#x6587;&#x4EF6;"><a href="#&#x4F20;&#x5165;Xml&#x6587;&#x4EF6;" class="headerlink" title="&#x4F20;&#x5165;Xml&#x6587;&#x4EF6;"></a>&#x4F20;&#x5165;Xml&#x6587;&#x4EF6;</h6><p>&#x521B;&#x5EFA;Spring&#x5BB9;&#x5668;&#x7684;&#x5B9E;&#x4F8B;&#x65F6;&#xFF0C;&#x8981;&#x63D0;&#x4F9B;Spring&#x5BB9;&#x5668;&#x7BA1;&#x7406;&#x7684;&#x8BE6;&#x7EC6;&#x914D;&#x7F6E;&#x4FE1;&#x606F;&#x3002;Spring&#x7684;&#x914D;&#x7F6E;&#x4FE1;&#x606F;&#x91C7;&#x7528;XML&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x6765;&#x8BBE;&#x7F6E;&#x3002;XML&#x6587;&#x4EF6;&#x53EF;&#x4EE5;&#x7528;&#x4EE5;&#x4E0B;&#x51E0;&#x79CD;&#x65B9;&#x5F0F;&#x4F20;&#x5165;&#x3002;</p>
+<ol>
+<li>&#x5B9E;&#x4F8B;&#x5316;BeanFactory</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//&#x641C;&#x7D22;&#x7C7B;&#x52A0;&#x8F7D;&#x8DEF;&#x5F84;&#xFF0C;&#x4EE5;&#x7C7B;&#x52A0;&#x8F7D;&#x8DEF;&#x5F84;&#x4E0B;&#x7684;beans.xml&#x6587;&#x4EF6;&#x521B;&#x5EFA;Resource&#x5BF9;&#x8C61;</span></div><div class="line">ClassPathResource res = <span class="keyword">new</span> ClassPathResource(<span class="string">&quot;beans.xml&quot;</span>);</div><div class="line"><span class="comment">//&#x4EE5;Resource&#x5BF9;&#x8C61;&#x4E3A;&#x53C2;&#x6570;&#xFF0C;&#x521B;&#x5EFA;BeanFactory&#x5BF9;&#x8C61;</span></div><div class="line">XmlBeanFactory factory = <span class="keyword">new</span> XmlBeanFactory&#xFF08;res&#xFF09;</div></pre></td></tr></table></figure>
+<ol>
+<li><p>&#x5B9E;&#x4F8B;&#x5316;ApplicationContext</p>
+<ol>
+<li><p>ApplicationContext&#x901A;&#x5E38;&#x6709;&#x4E24;&#x4E2A;&#x5B9E;&#x73B0;&#x7C7B;&#xFF1A;</p>
+<ol>
+<li>FileSystemXmlApplicationContext(&#x4EE5;&#x57FA;&#x4E8E;&#x6587;&#x4EF6;&#x7CFB;&#x7EDF;&#x7684;XML&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x521B;&#x5EFA;ApplicationContext&#x5B9E;&#x4F8B;)</li>
+<li>ClassPathXmlApplicationContext&#xFF1A;&#x4EE5;&#x7C7B;&#x52A0;&#x8F7D;&#x8DEF;&#x5F84;&#x4E0B;&#x7684;XML&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x521B;&#x5EFA;ApplicationContext&#x5B9E;&#x4F8B;</li>
+</ol>
+</li>
+<li><p>ApplicationContext&#x53EF;&#x4EE5;&#x540C;&#x65F6;&#x52A0;&#x8F7D;&#x591A;&#x4E2A;&#x914D;&#x7F6E;&#x6587;&#x4EF6;</p>
+</li>
+</ol>
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ApplicationContext ap = new ClassPathXmlApplicationContext(new String[] {&quot;beans.xml&quot;,&quot;service.xml&quot;} );</div></pre></td></tr></table></figure>
+<h5 id="ApplicationContext&#x76F8;&#x5BF9;&#x4E8E;-BeanFactory&#x7684;&#x989D;&#x5916;&#x7279;&#x6027;"><a href="#ApplicationContext&#x76F8;&#x5BF9;&#x4E8E;-BeanFactory&#x7684;&#x989D;&#x5916;&#x7279;&#x6027;" class="headerlink" title="ApplicationContext&#x76F8;&#x5BF9;&#x4E8E; BeanFactory&#x7684;&#x989D;&#x5916;&#x7279;&#x6027;"></a>ApplicationContext&#x76F8;&#x5BF9;&#x4E8E; BeanFactory&#x7684;&#x989D;&#x5916;&#x7279;&#x6027;</h5><ul>
+<li>ApplictionContext&#x4F5C;&#x4E3A;Spring&#x5BB9;&#x5668;&#xFF0C;&#x521B;&#x5EFA;&#x5BB9;&#x5668;&#x65F6;&#x4F1A;&#x540C;&#x65F6;&#x521B;&#x5EFA;&#x5BB9;&#x5668;&#x4E2D;&#x6240;&#x6709;&#x7684;singleton&#x4F5C;&#x7528;&#x57DF;Bean&#xFF0C;&#x56E0;&#x6B64;&#x4F1A;&#x9700;&#x8981;&#x66F4;&#x591A;&#x7684;&#x7CFB;&#x7EDF;&#x5F00;&#x9500;&#x3002;&#x4F46;&#x4E00;&#x65E6;&#x521B;&#x5EFA;&#x6210;&#x529F;&#xFF0C;&#x540E;&#x9762;&#x5E94;&#x7528;&#x7684;&#x54CD;&#x5E94;&#x901F;&#x5EA6;&#x66F4;&#x5FEB;&#x3002;</li>
+<li>Application&#x63D0;&#x4F9B;&#x56FD;&#x9645;&#x5316;&#x652F;&#x6301;&#xFF1A;ApplicationContext&#x63A5;&#x53E3;&#x7EE7;&#x627F;&#x4E86;MessageSource&#x63A5;&#x53E3;&#xFF0C;&#x56E0;&#x6B64;&#x5177;&#x5907;&#x56FD;&#x9645;&#x5316;&#x529F;&#x80FD;</li>
+<li>Application&#x7684;&#x4E8B;&#x4EF6;&#x673A;&#x5236;&#xFF1A;&#x6709;&#x4E00;&#x4E2A;&#x5BB9;&#x5668;&#x4E8B;&#x4EF6;&#x7EE7;&#x627F;ApplicationEvent&#x7C7B;&#xFF0C;&#x4E00;&#x4E2A;&#x575A;&#x633A;&#x5176;&#x7EE7;&#x627F;ApplicationListener&#xFF0C;&#x6BCF;&#x5F53;ApplicationContext&#x53D1;&#x5E03;ApplicationEvent&#x65F6;&#xFF0C;ApplicationListener&#x90FD;&#x4F1A;&#x88AB;&#x89E6;&#x53D1;</li>
+</ul>
+<h4 id="&#x901A;&#x8FC7;BeanFactoryAware&#x63A5;&#x53E3;&#x8BA9;Bean&#x83B7;&#x53D6;Spring&#x5BB9;&#x5668;"><a href="#&#x901A;&#x8FC7;BeanFactoryAware&#x63A5;&#x53E3;&#x8BA9;Bean&#x83B7;&#x53D6;Spring&#x5BB9;&#x5668;" class="headerlink" title="&#x901A;&#x8FC7;BeanFactoryAware&#x63A5;&#x53E3;&#x8BA9;Bean&#x83B7;&#x53D6;Spring&#x5BB9;&#x5668;"></a>&#x901A;&#x8FC7;BeanFactoryAware&#x63A5;&#x53E3;&#x8BA9;Bean&#x83B7;&#x53D6;Spring&#x5BB9;&#x5668;</h4><p>&#x4E00;&#x4E2A;&#x7C7B;&#x91CC;&#x5B9E;&#x73B0;&#x4E86;BeanFactoryAware&#x63A5;&#x53E3;&#xFF0C;&#x90A3;&#x4E48;&#x5F53;&#x8FD9;&#x4E2A;&#x7C7B;&#x7684;Bean&#x5B9E;&#x4F8B;&#x88AB;&#x5BB9;&#x5668;&#x521B;&#x5EFA;&#x4EE5;&#x540E;&#xFF0C;&#x5B83;&#x4F1A;&#x62E5;&#x6709;&#x4E00;&#x4E2A;&#x5F15;&#x7528;&#xFF0C;&#x6307;&#x5411;&#x521B;&#x5EFA;&#x5B83;&#x7684;BeanFactory</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div></pre></td><td class="code"><pre><div class="line">// &#x5B9E;&#x73B0;ApplicationContextAware&#x63A5;&#x53E3;&#x7684;&#x7C7B;</div><div class="line">@Component</div><div class="line">public class BeanFactoryAware implements ApplicationContextAware {</div><div class="line">    private ApplicationContext ac ;</div><div class="line">    @Override</div><div class="line">    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {</div><div class="line">        this.ac = applicationContext;</div><div class="line">    }</div><div class="line"></div><div class="line">    public ApplicationContext getAc() {</div><div class="line">        return this.ac;</div><div class="line">    }</div><div class="line"></div><div class="line">}</div><div class="line"></div><div class="line">//&#x6D4B;&#x8BD5;&#x7C7B;</div><div class="line">package comlater.test;</div><div class="line"></div><div class="line">import comlater.Bean.BeanFactoryAware;</div><div class="line">import org.junit.Test;</div><div class="line">import org.springframework.context.ApplicationContext;</div><div class="line">import org.springframework.context.support.ClassPathXmlApplicationContext;</div><div class="line"></div><div class="line">/**</div><div class="line"> * Created by CiCi on 2017/3/10.</div><div class="line"> */</div><div class="line">public class TestBeanFactoryAware {</div><div class="line">    ApplicationContext applicationContext = new ClassPathXmlApplicationContext(&quot;testBeanFactoryAware.xml&quot;) ;</div><div class="line"></div><div class="line">    @Test</div><div class="line">    public void testBeanFactoryAware() {</div><div class="line">        BeanFactoryAware bf = applicationContext.getBean(&quot;beanFactoryAware&quot;,BeanFactoryAware.class );</div><div class="line">        System.out.println(bf.getAc().hashCode());</div><div class="line">        System.out.println(applicationContext.hashCode());</div><div class="line"></div><div class="line">    }</div><div class="line">}</div><div class="line"></div><div class="line"></div><div class="line">//xml&#x6587;&#x4EF6;&#x914D;&#x7F6E;</div><div class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</div><div class="line">&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;</div><div class="line">       xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</div><div class="line">       xmlns:context=&quot;http://www.springframework.org/schema/context&quot;</div><div class="line">       xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd&quot;&gt;</div><div class="line">&lt;context:component-scan base-package=&quot;comlater.Bean&quot;/&gt;</div><div class="line">&lt;/beans&gt;</div></pre></td></tr></table></figure>
+<p>&#x8F93;&#x51FA;&#x7ED3;&#x679C;&#xFF0C;&#x663E;&#x7136;&#x4E24;&#x4E2A;hashcode&#x662F;&#x4E00;&#x6837;&#x7684;</p>
+<h4 id="Spring&#x7684;&#x5E38;&#x7528;&#x6CE8;&#x5165;&#x65B9;&#x5F0F;"><a href="#Spring&#x7684;&#x5E38;&#x7528;&#x6CE8;&#x5165;&#x65B9;&#x5F0F;" class="headerlink" title="Spring&#x7684;&#x5E38;&#x7528;&#x6CE8;&#x5165;&#x65B9;&#x5F0F;"></a>Spring&#x7684;&#x5E38;&#x7528;&#x6CE8;&#x5165;&#x65B9;&#x5F0F;</h4><h5 id="Spring&#x7684;&#x6CE8;&#x5165;"><a href="#Spring&#x7684;&#x6CE8;&#x5165;" class="headerlink" title="Spring&#x7684;&#x6CE8;&#x5165;"></a>Spring&#x7684;&#x6CE8;&#x5165;</h5><p> Spring&#x7684;&#x6CE8;&#x5165;&#x662F;&#x6307;&#x5728;&#x542F;&#x52A8;Spring&#x5BB9;&#x5668;&#x52A0;&#x8F7D;bean&#x914D;&#x7F6E;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x5F53;&#x67D0;&#x4E2A;Java&#x5B9E;&#x4F8B;&#x9700;&#x8981;&#x53E6;&#x4E00;&#x4E2A;Java&#x5B9E;&#x4F8B;&#x65F6;&#xFF0C;&#x7531;Spring&#x5BB9;&#x5668;&#x52A8;&#x6001;&#x5730;&#x6CE8;&#x5165;&#x5230;&#x7B2C;&#x4E00;&#x4E2A;Java&#x5B9E;&#x4F8B;&#x4E2D;</p>
+<p>&#x5E38;&#x7528;&#x7684;&#x6CE8;&#x5165;&#x65B9;&#x5F0F;&#x6709;&#x4E24;&#x79CD;&#xFF0C;&#x8BBE;&#x503C;&#x6CE8;&#x5165;&#xFF0C;&#x6784;&#x9020;&#x6CE8;&#x5165;</p>
+<h5 id="&#x8BBE;&#x503C;&#x6CE8;&#x5165;"><a href="#&#x8BBE;&#x503C;&#x6CE8;&#x5165;" class="headerlink" title="&#x8BBE;&#x503C;&#x6CE8;&#x5165;"></a>&#x8BBE;&#x503C;&#x6CE8;&#x5165;</h5><ul>
+<li>&#x8BBE;&#x503C;&#x6CE8;&#x5165;&#x662F;&#x5728;&#x9700;&#x8981;&#x5176;&#x4ED6;Java&#x5B9E;&#x4F8B;&#x7684;&#x7C7B;&#x4E2D;&#x901A;&#x8FC7;Setter()&#x65B9;&#x6CD5;&#x6765;&#x6CE8;&#x5165;&#x88AB;&#x4F9D;&#x8D56;&#x7684;&#x5B9E;&#x4F8B;&#x3002;</li>
+</ul>
+<p>&#x4E3E;&#x4E2A;&#x6817;&#x5B50;&#xFF1A;&#x6211;&#x4EEC;&#x6709;&#x4E24;&#x4E2A;&#x7C7B;&#xFF0C;AutoWiringDao&#xFF0C;AutoWiringService&#xFF0C;AutoWiringService&#x4E2D;&#x6709;&#x4E00;&#x4E2A;AutoWiringDao&#x7C7B;&#x7684;&#x5BF9;&#x8C61;<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line">//AutoWiringDao&#x7C7B;</div><div class="line">public class AutoWiringDao {</div><div class="line">    public void say(String word) {</div><div class="line">        System.out.println(&quot;AutoWiringDao say &quot; + word);</div><div class="line">    }</div><div class="line">}</div><div class="line"></div><div class="line">//AutoWiringService&#x7C7B;</div><div class="line">public class AutoWiringService {</div><div class="line"></div><div class="line">    AutoWiringDao autoWiringDao;</div><div class="line"></div><div class="line">    //set&#x65B9;&#x6CD5;</div><div class="line">    public void setAutoWiringDao(AutoWiringDao autoWiringDao) {</div><div class="line">        this.autoWiringDao = autoWiringDao;</div><div class="line">    }</div><div class="line"></div><div class="line">    public void say(String word) {</div><div class="line">        autoWiringDao.say(word);</div><div class="line">    }</div><div class="line">}</div><div class="line"></div><div class="line"></div><div class="line">//xml&#x6587;&#x4EF6;&#x914D;&#x7F6E;&#xFF0C;xml&#x89E3;&#x6790;&#x5668;&#x8BFB;&#x53D6;&#x8BE5;&#x5C5E;&#x6027;&#x503C;&#xFF0C;&#x5E76;&#x4E14;&#x5229;&#x7528;&#x53CD;&#x5C04;&#x6765;&#x8BBF;&#x95EE;Bean&#x5B9E;&#x4F8B;</div><div class="line">&lt;bean id=&quot;autoWiringService&quot; class=&quot;comlater.Bean.AutoWiringService&quot;&gt;</div><div class="line">       &lt;property name=&quot;autoWiringDao&quot; ref=&quot;autoWiringDao&quot;/&gt;</div><div class="line">   &lt;/bean&gt;</div><div class="line"></div><div class="line">    &lt;bean id=&quot;autoWiringDao&quot; class=&quot;comlater.Dao.AutoWiringDao&quot;&gt;</div><div class="line"></div><div class="line">    &lt;/bean&gt;</div><div class="line"></div><div class="line">//&#x6D4B;&#x8BD5;</div><div class="line">public class TestAutoWiring {</div><div class="line">    ApplicationContext context = new ClassPathXmlApplicationContext(&quot;testAutoWiring.xml&quot;);</div><div class="line">    @Test</div><div class="line">    public void testAutoWiring() {</div><div class="line">        AutoWiringService aws = (AutoWiringService)context.getBean(&quot;autoWiringService&quot;);</div><div class="line">        aws.say(&quot;Hello World&quot;);</div><div class="line"></div><div class="line">    }</div><div class="line">}</div></pre></td></tr></table></figure></p>
+<p>&#x6211;&#x4EEC;&#x53D1;&#x73B0;&#xFF0C;&#x6211;&#x4EEC;&#x4ECE;&#x6765;&#x6CA1;&#x6709;&#x624B;&#x52A8;&#x5730;&#x5C06;AutoWiringService&#x4E2D;&#x7684;AutoWiringDao&#x7684;&#x5BF9;&#x8C61;&#x5B9E;&#x4F8B;&#x5316;&#xFF0C;&#x5374;&#x6210;&#x529F;&#x8C03;&#x7528;&#x4E86;&#x8BE5;&#x5BF9;&#x8C61;&#x7684;&#x65B9;&#x6CD5;&#xFF0C;&#x8FD9;&#x5C31;&#x662F;&#x4F9D;&#x8D56;&#x6CE8;&#x5165;DI(Dependency Injection)&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x5728;&#x7A0B;&#x5E8F;&#x8FD0;&#x884C;&#x7684;&#x8FC7;&#x7A0B;&#x4E2D;&#xFF0C;&#x5982;&#x679C;&#x9700;&#x8981;&#x53E6;&#x4E00;&#x4E2A;&#x5BF9;&#x8C61;&#x534F;&#x4F5C;&#xFF0C;&#x90A3;&#x4E48;&#x65E0;&#x9700;&#x518D;&#x4EE3;&#x7801;&#x4E2D;&#x521B;&#x5EFA;&#x88AB;&#x8C03;&#x7528;&#x8005;&#xFF0C;&#x800C;&#x662F;&#x5728;&#x5916;&#x90E8;&#x6CE8;&#x5165;&#x8FD9;&#x79CD;&#x4F9D;&#x8D56;</p>
+<p>IoC&#x7684;&#x4E00;&#x4E2A;&#x91CD;&#x70B9;&#x662F;&#x5728;&#x7CFB;&#x7EDF;&#x8FD0;&#x884C;&#x4E2D;&#xFF0C;&#x52A8;&#x6001;&#x7684;&#x5411;&#x67D0;&#x4E2A;&#x5BF9;&#x8C61;&#x63D0;&#x4F9B;&#x5B83;&#x6240;&#x9700;&#x8981;&#x7684;&#x5176;&#x4ED6;&#x5BF9;&#x8C61;&#x3002;&#x8FD9;&#x4E00;&#x70B9;&#x662F;&#x901A;&#x8FC7;DI&#xFF08;Dependency Injection&#xFF0C;&#x4F9D;&#x8D56;&#x6CE8;&#x5165;&#xFF09;&#x6765;&#x5B9E;&#x73B0;&#x7684;&#x3002;</p>
+<h5 id="&#x6784;&#x9020;&#x6CE8;&#x5165;"><a href="#&#x6784;&#x9020;&#x6CE8;&#x5165;" class="headerlink" title="&#x6784;&#x9020;&#x6CE8;&#x5165;"></a>&#x6784;&#x9020;&#x6CE8;&#x5165;</h5><ul>
+<li>&#x8BBE;&#x503C;&#x6CE8;&#x5165;&#x662F;&#x5728;&#x9700;&#x8981;&#x5176;&#x4ED6;Java&#x5B9E;&#x4F8B;&#x7684;&#x7C7B;&#x4E2D;&#x901A;&#x8FC7;&#x6784;&#x9020;&#x65B9;&#x6CD5;&#x6765;&#x6CE8;&#x5165;&#x88AB;&#x4F9D;&#x8D56;&#x7684;&#x5B9E;&#x4F8B;&#x3002;<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div></pre></td><td class="code"><pre><div class="line">```java</div><div class="line">//AutoWiringDao&#x7C7B;</div><div class="line">public class AutoWiringDao {</div><div class="line">    public void say(String word) {</div><div class="line">        System.out.println(&quot;AutoWiringDao say &quot; + word);</div><div class="line">    }</div><div class="line">}</div><div class="line"></div><div class="line">//AutoWiringService&#x7C7B;</div><div class="line">public class AutoWiringService {</div><div class="line"></div><div class="line">    AutoWiringDao autoWiringDao;</div><div class="line"></div><div class="line">    //set&#x65B9;&#x6CD5;</div><div class="line">    //public void setAutoWiringDao(AutoWiringDao autoWiringDao) {</div><div class="line">        //this.autoWiringDao = autoWiringDao;</div><div class="line">    //}</div><div class="line"></div><div class="line">    //&#x6784;&#x9020;&#x65B9;&#x6CD5;</div><div class="line">    public AutoWiringService(AutoWiringDao autoWiringDao) {</div><div class="line">        this.autoWiringDao = autoWiringDao;</div><div class="line">    }</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line">    public void say(String word) {</div><div class="line">        autoWiringDao.say(word);</div><div class="line">    }</div><div class="line">}</div><div class="line"></div><div class="line"></div><div class="line">//xml&#x6587;&#x4EF6;&#x914D;&#x7F6E;&#xFF0C;xml&#x89E3;&#x6790;&#x5668;&#x8BFB;&#x53D6;&#x8BE5;&#x5C5E;&#x6027;&#x503C;&#xFF0C;&#x5E76;&#x4E14;&#x5229;&#x7528;&#x53CD;&#x5C04;&#x6765;&#x8BBF;&#x95EE;Bean&#x5B9E;&#x4F8B;</div><div class="line">  &lt;bean id=&quot;autoWiringService&quot; class=&quot;comlater.Bean.AutoWiringService&quot;&gt;</div><div class="line">       &lt;constractor-arg ref=&quot;autoWiringDao&quot;/&gt;</div><div class="line">   &lt;/bean&gt;</div><div class="line"></div><div class="line">    &lt;bean id=&quot;autoWiringDao&quot; class=&quot;comlater.Dao.AutoWiringDao&quot;&gt;</div><div class="line"></div><div class="line">    &lt;/bean&gt;</div><div class="line"></div><div class="line">//&#x6D4B;&#x8BD5;</div><div class="line">public class TestAutoWiring {</div><div class="line">    ApplicationContext context = new ClassPathXmlApplicationContext(&quot;testAutoWiring.xml&quot;);</div><div class="line">    @Test</div><div class="line">    public void testAutoWiring() {</div><div class="line">        AutoWiringService aws = (AutoWiringService)context.getBean(&quot;autoWiringService&quot;);</div><div class="line">        aws.say(&quot;Hello World&quot;);</div><div class="line"></div><div class="line">    }</div><div class="line">}</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h5 id="&#x4E24;&#x79CD;&#x65B9;&#x6CD5;&#x7684;&#x6BD4;&#x8F83;"><a href="#&#x4E24;&#x79CD;&#x65B9;&#x6CD5;&#x7684;&#x6BD4;&#x8F83;" class="headerlink" title="&#x4E24;&#x79CD;&#x65B9;&#x6CD5;&#x7684;&#x6BD4;&#x8F83;"></a>&#x4E24;&#x79CD;&#x65B9;&#x6CD5;&#x7684;&#x6BD4;&#x8F83;</h5><ul>
+<li>&#x8BBE;&#x7F6E;&#x6CE8;&#x5165;&#x4E0E;&#x4F20;&#x7EDF;&#x7684;JavaBean&#x5199;&#x6CD5;&#x5F88;&#x76F8;&#x4F3C;&#xFF0C;&#x66F4;&#x5BB9;&#x6613;&#x7406;&#x89E3;&#xFF0C;&#x63A5;&#x53D7;&#x3002;</li>
+<li>&#x5BF9;&#x4E8E;&#x590D;&#x6742;&#x7684;&#x4F9D;&#x8D56;&#x5173;&#x7CFB;&#xFF0C;&#x5982;&#x679C;&#x91C7;&#x7528;&#x6784;&#x9020;&#x6CE8;&#x5165;&#xFF0C;&#x6784;&#x9020;&#x5668;&#x4F1A;&#x5F88;&#x81C3;&#x80BF;</li>
+<li>&#x6240;&#x4EE5;&#xFF0C;&#x5EFA;&#x8BAE;&#x4F7F;&#x7528;&#x8BBE;&#x503C;&#x6CE8;&#x5165;</li>
+</ul>
+<h4 id="Spring-Bean"><a href="#Spring-Bean" class="headerlink" title="Spring Bean"></a>Spring Bean</h4><p><beans..>&#x5143;&#x7D20;&#x662F;Spring&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x7684;&#x6839;&#x5143;&#x7D20;&#xFF0C;&#x53EF;&#x4EE5;&#x6307;&#x5B9A;&#x5982;&#x4E0B;&#x5C5E;&#x6027;</beans..></p>
+<ul>
+<li>default-lazy-init&#xFF1A; &#x6307;&#x5B9A;&#x8BE5;<beans..>&#x5143;&#x7D20;&#x4E0B;&#x914D;&#x7F6E;&#x7684;&#x6240;&#x6709;Bean&#x9ED8;&#x8BA4;&#x7684;&#x5EF6;&#x8FDF;&#x521D;&#x59CB;&#x5316;&#x884C;&#x4E3A;</beans..></li>
+<li>default-merge</li>
+<li>default-autowire</li>
+<li>default-autowire-candidate</li>
+<li>default-init-method</li>
+<li>default-destroy-method<br><beans..>&#x5143;&#x7D20;&#x4E0A;&#x9762;&#x7684;&#x5C5E;&#x6027;&#x90FD;&#x53EF;&#x4EE5;&#x5728;<bean..>&#x5B50;&#x5143;&#x7D20;&#x4E2D;&#x6307;&#x5B9A;&#xFF0C;&#x5C06;&#x5C5E;&#x6027;&#x540D;&#x53BB;&#x6389;default&#x5373;&#x53EF;&#x3002;&#x5728;<bean..>&#x4E2D;&#x5236;&#x5B9A;&#x7684;&#x5C5E;&#x6027;&#x53EA;&#x5BF9;&#x7279;&#x5B9A;&#x7684;Bean&#x8D77;&#x4F5C;&#x7528;&#xFF0C;&#x5728;<beans..>&#x4E2D;&#x5B9A;&#x4E49;&#x7684;&#x5C5E;&#x6027;&#x5BF9;&#x6240;&#x6709;&#x7684;Bean&#x90FD;&#x8D77;&#x4F5C;&#x7528;<h5 id="Bean&#x7684;&#x914D;&#x7F6E;&#x9879;"><a href="#Bean&#x7684;&#x914D;&#x7F6E;&#x9879;" class="headerlink" title="Bean&#x7684;&#x914D;&#x7F6E;&#x9879;"></a>Bean&#x7684;&#x914D;&#x7F6E;&#x9879;</h5></beans..></bean..></bean..></beans..></li>
+<li>Id</li>
+<li>Class</li>
+<li>Scope</li>
+<li>Constructor arguments</li>
+<li>Properties<ul>
+<li>value &#x7528;&#x4E8E;&#x6307;&#x5B9A;&#x5B57;&#x7B26;&#x4E32;&#x7C7B;&#x578B;/&#x57FA;&#x672C;&#x7C7B;&#x578B;&#x7684;&#x5C5E;&#x6027;&#x503C;</li>
+<li>ref &#x8981;&#x4E3A;Bean&#x6CE8;&#x5165;&#x7684;&#x5C5E;&#x6027;&#x503C;&#x662F;&#x5BB9;&#x5668;&#x4E2D;&#x53E6;&#x4E00;&#x4E2A;Bean&#x5B9E;&#x4F8B;</li>
+<li>list&#xFF0C;set&#xFF0C;map&#xFF0C;props &#x6307;&#x5B9A;&#x6CE8;&#x5165;&#x5C5E;&#x6027;&#x662F;&#x96C6;&#x5408;</li>
+</ul>
+</li>
+<li>Autowiring mode</li>
+<li>lazy-initialization mode</li>
+<li>Initialization/destruction method</li>
+</ul>
+<h5 id="Bean&#x7684;&#x4F5C;&#x7528;&#x57DF;"><a href="#Bean&#x7684;&#x4F5C;&#x7528;&#x57DF;" class="headerlink" title="Bean&#x7684;&#x4F5C;&#x7528;&#x57DF;"></a>Bean&#x7684;&#x4F5C;&#x7528;&#x57DF;</h5><ul>
+<li>singleton: &#x5355;&#x4F8B;&#xFF0C;&#x6307;&#x4E00;&#x4E2A;Bean&#x5BB9;&#x5668;&#x4E2D;&#x53EA;&#x5B58;&#x5728;&#x4E00;&#x4EFD;</li>
+<li>prototype: &#x6BCF;&#x6B21;&#x8BF7;&#x6C42;&#xFF08;&#x6BCF;&#x6B21;&#x4F7F;&#x7528;&#xFF09;&#x521B;&#x5EFA;&#x65B0;&#x7684;&#x5B9E;&#x4F8B;</li>
+<li>request: &#x6BCF;&#x6B21;http&#x8BF7;&#x6C42;&#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x5B9E;&#x4F8B;&#x4E14;&#x4EC5;&#x5728;&#x5F53;&#x524D;request&#x5185;&#x6709;&#x6548;</li>
+<li>session: &#x540C;&#x4E0A;&#xFF0C;&#x6BCF;&#x6B21;http&#x8BF7;&#x6C42;&#x521B;&#x5EFA;&#xFF0C;&#x5F53;&#x524D;ssession&#x6709;&#x6548;</li>
+<li>global session: &#x57FA;&#x4E8E;prtlet&#x7684;web&#x4E2D;&#x6709;&#x6548;&#xFF08;portlet&#x5B9A;&#x4E49;&#x4E86;global session&#xFF09;&#xFF0C;&#x5982;&#x679C;&#x662F;&#x5728;web&#x4E2D;&#xFF0C;&#x540C;session</li>
+</ul>
+<h5 id="Bean&#x7684;&#x751F;&#x547D;&#x5468;&#x671F;"><a href="#Bean&#x7684;&#x751F;&#x547D;&#x5468;&#x671F;" class="headerlink" title="Bean&#x7684;&#x751F;&#x547D;&#x5468;&#x671F;"></a>Bean&#x7684;&#x751F;&#x547D;&#x5468;&#x671F;</h5><ul>
+<li>&#x5B9A;&#x4E49;&#xFF1A;&#x5728;XML&#x6587;&#x4EF6;&#x4E2D;&#x5B9A;&#x4E49;&#x4E86;id,class</li>
+<li>&#x521D;&#x59CB;&#x5316;: IOC&#x5BB9;&#x5668;&#x542F;&#x52A8;&#x65F6;&#x52A0;&#x8F7D;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x7684;bean&#xFF0C;&#x751F;&#x6210;&#x5177;&#x4F53;&#x7684;&#x5B9E;&#x4F8B;<ul>
+<li>&#x5B9E;&#x73B0;<code>org.springframework.beans.factory.InitializaingBean</code>&#x63A5;&#x53E3;&#xFF0C;&#x8986;&#x76D6;<code>afterPropertiesSet</code>&#x65B9;&#x6CD5;</li>
+<li>xml&#x914D;&#x7F6E;init-method</li>
+</ul>
+</li>
+<li>&#x4F7F;&#x7528;&#xFF1A;&#x5728;&#x5355;&#x5143;&#x6D4B;&#x8BD5;&#x4E2D;&#xFF0C;&#x5728;&#x5B9E;&#x9645;&#x5F00;&#x53D1;&#x4E2D;&#x53D6;&#x51FA;bean&#x5BB9;&#x5668;&#x5EFA;&#x7ACB;&#x5BF9;&#x8C61;</li>
+<li>&#x9500;&#x6BC1;&#xFF1A;&#x5728;bean&#x5BB9;&#x5668;&#x505C;&#x6B62;&#x7684;&#x65F6;&#x5019;&#x9500;&#x6BC1;&#x7531;&#x5F53;&#x524D;bean&#x5BB9;&#x5668;&#x521B;&#x5EFA;&#x7684;&#x6240;&#x6709;&#x7684;&#x5B9E;&#x4F8B;<ul>
+<li>&#x5B9E;&#x73B0;<code>org.springframework.beans.factory.DisposableBean&#x63A5;&#x53E3;&#xFF0C;&#x8986;&#x76D6;destroy-method</code>&#x65B9;&#x6CD5;</li>
+<li>xml&#x914D;&#x7F6E;destroy-method</li>
+</ul>
+</li>
+</ul>
+<p>&#x4E5F;&#x53EF;&#x4EE5;&#x914D;&#x7F6E;&#x5168;&#x5C40;&#x9ED8;&#x8BA4;&#x7684;&#x521D;&#x59CB;&#x5316;&#xFF0C;&#x9500;&#x6BC1;&#x65B9;&#x6CD5;&#xFF0C;&#x5728;xml&#x6587;&#x4EF6;&#x7684;&#x6700;&#x5916;&#x5C42;&#x914D;&#x7F6E;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</div><div class="line">&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;</div><div class="line">       xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</div><div class="line">       xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd&quot;&gt;</div><div class="line">default-init-method=&quot;init&quot; default-destroy-method=&quot;destroy&quot;//&#x914D;&#x7F6E;&#x9ED8;&#x8BA4;&#x7684;&#x5168;&#x5C40;&#x521D;&#x59CB;&#x5316;&#x65B9;&#x6CD5;&#x548C;&#x9500;&#x6BC1;&#x65B9;&#x6CD5;&#xFF0C;&#x5982;&#x679C;&#x6709;&#x7EE7;&#x627F;&#x63A5;&#x53E3;&#x7684;&#x6216;&#x8005;&#x5728;bean&#x7684;&#x5B9A;&#x4E49;&#x6C47;&#x603B;&#x6709;init-method,destroy-method&#xFF0C;&#x90A3;&#x4E48;&#x8FD9;&#x4E2A;&#x8BED;&#x53E5;&#x5C31;&#x4E0D;&#x6267;&#x884C;&#xFF0C;&#x4E0D;&#x6267;&#x884C;&#x7684;&#x610F;&#x601D;&#x662F;&#x5373;&#x4F7F;&#x5728;&#x7C7B;&#x4E2D;&#x6CA1;&#x6709;&#x54CD;&#x5E94;&#x7684;&#x65B9;&#x6CD5;&#x4E5F;&#x4E0D;&#x4F1A;&#x62A5;&#x9519;</div><div class="line"></div><div class="line">&lt;bean id=&quot;beanLifeCycle&quot; class=&quot;com.imooc.lifecycle.BeanLifeCycle&quot;  init-method=&quot;start&quot; destroy-method=&quot;stop&quot;&gt;</div><div class="line">//&#x8BBE;&#x7F6E;&#x67D0;&#x4E00;&#x4E2A;bean&#x7684;&#x521D;&#x59CB;&#x5316;&#x65B9;&#x6CD5;&#x548C;&#x9500;&#x6BC1;&#x65B9;&#x6CD5;</div><div class="line"></div><div class="line">&lt;/beans&gt;</div></pre></td></tr></table></figure></p>
+<p>&#x5173;&#x4E8E;bean&#x521D;&#x59CB;&#x5316;&#x548C;&#x9500;&#x6BC1;&#x540C;&#x65F6;&#x4F7F;&#x7528;&#x7684;&#x6CE8;&#x610F;&#x60C5;&#x51B5;&#xFF1A;</p>
+<ol>
+<li>&#x9ED8;&#x8BA4;&#x5168;&#x5C40;&#x7684;&#x521D;&#x59CB;&#x5316;&#x548C;&#x9500;&#x6BC1;&#x65B9;&#x6CD5;&#xFF1B;<br><code>default-init-method=&quot;init&quot; default-destroy-method=&quot;destroy&quot;</code></li>
+<li><p>&#x5B9E;&#x73B0;&#x63A5;&#x53E3;&#x7684;&#x521D;&#x59CB;&#x5316;&#x548C;&#x9500;&#x6BC1;&#x65B9;&#x6CD5;&#xFF1B;<br><code>public class BeanLifeCycle implements InitializingBean, DisposableBean</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">@Override</div><div class="line">    public void destroy() throws Exception {</div><div class="line">        System.out.println(&quot;Bean destroy.&quot;);</div><div class="line">    }</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public void afterPropertiesSet() throws Exception {</div><div class="line">        System.out.println(&quot;Bean afterPropertiesSet.&quot;);</div><div class="line">    }</div></pre></td></tr></table></figure>
+</li>
+<li><p>&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x4E2D;&#x914D;&#x7F6E;&#x521D;&#x59CB;&#x5316;&#x548C;&#x9500;&#x6BC1;&#x65B9;&#x6CD5;&#xFF1B;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&lt;bean id=&quot;beanLifeCycle&quot; class=&quot;com.imooc.lifecycle.BeanLifeCycle&quot;  init-method=&quot;start&quot; destroy-method=&quot;stop&quot;&gt;</div><div class="line">//&#x8BBE;&#x7F6E;&#x67D0;&#x4E00;&#x4E2A;bean&#x7684;&#x521D;&#x59CB;&#x5316;&#x65B9;&#x6CD5;&#x548C;&#x9500;&#x6BC1;&#x65B9;&#x6CD5;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>&#x8FD9;&#x4E09;&#x4E2A;&#x65B9;&#x6CD5;&#x540C;&#x65F6;&#x4F7F;&#x7528;&#x65F6;&#xFF0C;1&#x9ED8;&#x8BA4;&#x7684;&#x5219;&#x4E0D;&#x6267;&#x884C;&#xFF0C;&#x800C;23&#x4E24;&#x79CD;&#x90FD;&#x4F1A;&#x6267;&#x884C;&#xFF0C;&#x5E76;&#x4E14;&#x662F;2&#x5B9E;&#x73B0;&#x63A5;&#x53E3;&#x7684;&#x65B9;&#x5F0F;&#x5148;&#x4E8E;&#x914D;&#x7F6E;&#x4E2D;3&#x7684;&#x6267;&#x884C;&#x3002;</p>
+<p>1&#x9ED8;&#x8BA4;&#x7684;&#x5168;&#x5C40;&#x521D;&#x59CB;&#x5316;&#x548C;&#x9500;&#x6BC1;&#x65B9;&#x6CD5;&#x53EF;&#x4EE5;&#x6709;&#x53EF;&#x4EE5;&#x6CA1;&#x6709;&#xFF0C;&#x6709;&#x6CA1;&#x6709;&#x5BF9;&#x914D;&#x7F6E;&#x90FD;&#x6CA1;&#x6709;&#x592A;&#x5927;&#x5F71;&#x54CD;&#xFF0C;&#x5F53;&#x7136;&#x5982;&#x679C;&#x4E00;&#x4E2A;bean&#x6CA1;&#x6709;&#x91C7;&#x53D6;23&#x521D;&#x59CB;&#x5316;&#x9500;&#x6BC1;&#x65B9;&#x6CD5;&#xFF0C;&#x800C;&#x6709;1&#x9ED8;&#x8BA4;&#x7684;&#x65B9;&#x6CD5;&#x7684;&#x8BDD;&#xFF0C;&#x8FD9;&#x4E24;&#x4E2A;&#x65B9;&#x6CD5;&#x8FD8;&#x662F;&#x4F1A;&#x6267;&#x884C;&#x7684;&#x3002;&#x5373;&#x4F7F;&#x6CA1;&#x6709;&#xFF0C;&#x7CFB;&#x7EDF;&#x4E5F;&#x4E0D;&#x4F1A;&#x62A5;&#x9519;&#x3002;</p>
+<h4 id="&#x901A;&#x8FC7;XML&#x6587;&#x4EF6;&#x914D;&#x7F6E;"><a href="#&#x901A;&#x8FC7;XML&#x6587;&#x4EF6;&#x914D;&#x7F6E;" class="headerlink" title="&#x901A;&#x8FC7;XML&#x6587;&#x4EF6;&#x914D;&#x7F6E;"></a>&#x901A;&#x8FC7;XML&#x6587;&#x4EF6;&#x914D;&#x7F6E;</h4><p>&#x662F;&#x5728;xml&#x6587;&#x4EF6;&#x4E2D;&#x5B9A;&#x4E49;Bean&#xFF0C;&#x4E3A;Bean&#x6CE8;&#x5165;&#x76F8;&#x5E94;&#x4F9D;&#x8D56;&#x3002;&#x4E00;&#x5207;&#x90FD;&#x7531;xml&#x6587;&#x4EF6;&#x914D;&#x7F6E;&#xFF0C;</p>
+<h4 id="&#x901A;&#x8FC7;&#x6CE8;&#x89E3;&#x914D;&#x7F6E;"><a href="#&#x901A;&#x8FC7;&#x6CE8;&#x89E3;&#x914D;&#x7F6E;" class="headerlink" title="&#x901A;&#x8FC7;&#x6CE8;&#x89E3;&#x914D;&#x7F6E;"></a>&#x901A;&#x8FC7;&#x6CE8;&#x89E3;&#x914D;&#x7F6E;</h4><h5 id="ClassPath&#x626B;&#x63CF;&#x4E0E;&#x7EC4;&#x4EF6;&#x7BA1;&#x7406;"><a href="#ClassPath&#x626B;&#x63CF;&#x4E0E;&#x7EC4;&#x4EF6;&#x7BA1;&#x7406;" class="headerlink" title="ClassPath&#x626B;&#x63CF;&#x4E0E;&#x7EC4;&#x4EF6;&#x7BA1;&#x7406;"></a>ClassPath&#x626B;&#x63CF;&#x4E0E;&#x7EC4;&#x4EF6;&#x7BA1;&#x7406;</h5><p>&#x4ECE;Spring3.0&#x5F00;&#x59CB;&#xFF0C;Spring JavaConfig&#x9879;&#x76EE;&#x63D0;&#x4F9B;&#x4E86;&#x5F88;&#x591A;&#x7279;&#x6027;&#xFF0C;&#x5305;&#x62EC;&#x4F7F;&#x7528;Java&#x800C;&#x4E0D;&#x662F;XML&#x5B9A;&#x4E49;bean&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x8BF4;&#x4E0D;&#x7528;XML&#x6587;&#x4EF6;&#xFF0C;&#x800C;&#x662F;&#x7528;Java&#x8BED;&#x8A00;&#x672C;&#x8EAB;&#x6765;&#x5B9A;&#x4E49;bean&#x3002;&#x90A3;&#x662F;&#x600E;&#x4E48;&#x5F04;&#x5462;&#xFF1F;&#x5C31;&#x662F;&#x57FA;&#x4E8E;&#x6CE8;&#x89E3;&#x7684;&#x65B9;&#x5F0F;&#x3002;&#x6BD4;&#x5982;@Configuration&#xFF0C;@Bean&#xFF0C;@Import&#xFF0C;@DependsOn</p>
+<ul>
+<li>@Component&#x662F;&#x4E00;&#x4E2A;&#x901A;&#x7528;&#x6CE8;&#x89E3;&#xFF0C;&#x53EF;&#x7528;&#x4E8E;&#x4EFB;&#x4F55;bean</li>
+<li>@Repository&#xFF0C;@Service&#xFF0C;@Controller&#x662F;&#x66F4;&#x6709;&#x9488;&#x5BF9;&#x6027;&#x7684;&#x6CE8;&#x89E3;<ul>
+<li>@Repository&#x901A;&#x5E38;&#x7528;&#x4E8E;&#x6CE8;&#x89E3;DAO&#x7C7B;&#xFF0C;&#x5373;&#x6301;&#x4E45;&#x5C42;</li>
+<li>@Service&#x901A;&#x5E38;&#x7528;&#x4E8E;&#x6CE8;&#x89E3;Service&#x7C7B;&#xFF0C;&#x5373;&#x670D;&#x52A1;&#x5C42;</li>
+<li>@Controller&#x901A;&#x5E38;&#x7528;&#x4E8E;Controller&#x7C7B;&#xFF0C;&#x5373;&#x63A7;&#x5236;&#x5C42;&#xFF08;MVC&#xFF09;</li>
+</ul>
+</li>
+</ul>
+<h5 id="&#x5143;&#x6CE8;&#x89E3;&#xFF08;Meta-annotations&#xFF09;"><a href="#&#x5143;&#x6CE8;&#x89E3;&#xFF08;Meta-annotations&#xFF09;" class="headerlink" title="&#x5143;&#x6CE8;&#x89E3;&#xFF08;Meta-annotations&#xFF09;"></a>&#x5143;&#x6CE8;&#x89E3;&#xFF08;Meta-annotations&#xFF09;</h5><ul>
+<li>&#x8BB8;&#x591A;Spring&#x63D0;&#x4F9B;&#x7684;&#x6CE8;&#x89E3;&#x53EF;&#x4EE5;&#x4F5C;&#x4E3A;&#x81EA;&#x5DF1;&#x7684;&#x4EE3;&#x7801;&#xFF0C;&#x5373;&#x201C;&#x5143;&#x6570;&#x636E;&#x6CE8;&#x89E3;&#x201D;&#xFF0C;&#x5143;&#x6CE8;&#x89E3;&#x662F;&#x4E00;&#x4E2A;&#x7B80;&#x5355;&#x7684;&#x6CE8;&#x89E3;&#xFF0C;&#x53EF;&#x4EE5;&#x5E94;&#x7528;&#x5230;&#x53E6;&#x4E00;&#x4E2A;&#x6CE8;&#x89E3;</li>
+</ul>
+<h5 id="&#x7C7B;&#x7684;&#x81EA;&#x52A8;&#x68C0;&#x6D4B;&#x53CA;Bean&#x7684;&#x6CE8;&#x518C;"><a href="#&#x7C7B;&#x7684;&#x81EA;&#x52A8;&#x68C0;&#x6D4B;&#x53CA;Bean&#x7684;&#x6CE8;&#x518C;" class="headerlink" title="&#x7C7B;&#x7684;&#x81EA;&#x52A8;&#x68C0;&#x6D4B;&#x53CA;Bean&#x7684;&#x6CE8;&#x518C;"></a>&#x7C7B;&#x7684;&#x81EA;&#x52A8;&#x68C0;&#x6D4B;&#x53CA;Bean&#x7684;&#x6CE8;&#x518C;</h5><ul>
+<li>Spring&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x68C0;&#x6D4B;&#x6CE8;&#x89E3;&#x81EA;&#x52A8;&#x68C0;&#x6D4B;&#x7C7B;&#x5E76;&#x6CE8;&#x518C;Bean&#x5230;ApplicationContext&#x4E2D;&#xFF0C;&#x53EA;&#x9700;&#x8981;&#x5C06;&#x6CE8;&#x89E3;&#x653E;&#x5230;&#x7C7B;&#x4E0A;&#x9762;&#xFF0C;&#x6216;&#x8005;&#x65B9;&#x6CD5;&#x4E0A;&#x9762;</li>
+<li>&#x4E3A;&#x4E86;&#x80FD;&#x591F;&#x68C0;&#x6D4B;&#x8FD9;&#x4E9B;&#x7C7B;&#x5E76;&#x6CE8;&#x518C;&#x76F8;&#x5E94;&#x7684;Bean&#xFF0C;&#x9700;&#x8981;&#x5728;xml&#x4E2D;&#x914D;&#x7F6E;<code>&lt;context:conponent-scan base-package = &quot;&#x5728;&#x54EA;&#x4E2A;&#x5305;&#x4E2D;&quot;/&gt;</code>&#x3002;context&#xFF1A;component-scan&#x5305;&#x542B;context&#xFF1A;annotation-config&#xFF0C;&#x901A;&#x5E38;&#x4F7F;&#x7528;&#x524D;&#x8005;&#xFF0C;&#x4E0D;&#x518D;&#x4F7F;&#x7528;&#x540E;&#x8005;</li>
+</ul>
+<h5 id="&#x4F7F;&#x7528;&#x8FC7;&#x6EE4;&#x5668;&#x8FDB;&#x884C;&#x81EA;&#x5B9A;&#x4E49;&#x626B;&#x63CF;"><a href="#&#x4F7F;&#x7528;&#x8FC7;&#x6EE4;&#x5668;&#x8FDB;&#x884C;&#x81EA;&#x5B9A;&#x4E49;&#x626B;&#x63CF;" class="headerlink" title="&#x4F7F;&#x7528;&#x8FC7;&#x6EE4;&#x5668;&#x8FDB;&#x884C;&#x81EA;&#x5B9A;&#x4E49;&#x626B;&#x63CF;"></a>&#x4F7F;&#x7528;&#x8FC7;&#x6EE4;&#x5668;&#x8FDB;&#x884C;&#x81EA;&#x5B9A;&#x4E49;&#x626B;&#x63CF;</h5><ul>
+<li>&#x9ED8;&#x8BA4;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;&#x7C7B;&#x88AB;&#x81EA;&#x52A8;&#x53D1;&#x73B0;&#x5E76;&#x6CE8;&#x518C;bean&#x7684;&#x6761;&#x4EF6;&#x662F;&#xFF1A;&#x4F7F;&#x7528;@Component&#xFF0C;@Repository&#xFF0C;@Service&#xFF0C;@Controller&#x6CE8;&#x89E3;&#x6216;&#x8005;&#x4F7F;&#x7528;@Component&#x7684;&#x81EA;&#x5B9A;&#x4E49;&#x6CE8;&#x89E3;</li>
+<li>&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x8FC7;&#x6EE4;&#x5668;&#x4FEE;&#x6539;&#x4E0A;&#x9762;&#x7684;&#x884C;&#x4E3A;&#xFF0C;&#x4F8B;&#x5982;&#xFF0C;&#x4E0B;&#x9762;&#x4F8B;&#x5B50;&#x7684;XML&#x914D;&#x7F6E;&#x5FFD;&#x7565;&#x4E86;&#x6240;&#x6709;&#x7684;@Repository&#x6CE8;&#x89E3;&#x5E76;&#x7528;&#x201C;Stub&#x201D;&#x4EE3;&#x66FF;</li>
+<li>&#x8FD8;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;<code>use-default-filters = &quot;false&quot;</code> &#x7981;&#x7528;&#x81EA;&#x52A8;&#x53D1;&#x73B0;&#x4E0E;&#x6CE8;&#x518C;</li>
+</ul>
+<h5 id="&#x8BF4;&#x4E86;&#x8FA3;&#x4E48;&#x591A;&#xFF0C;&#x600E;&#x4E48;&#x7528;&#x5462;"><a href="#&#x8BF4;&#x4E86;&#x8FA3;&#x4E48;&#x591A;&#xFF0C;&#x600E;&#x4E48;&#x7528;&#x5462;" class="headerlink" title="&#x8BF4;&#x4E86;&#x8FA3;&#x4E48;&#x591A;&#xFF0C;&#x600E;&#x4E48;&#x7528;&#x5462;"></a>&#x8BF4;&#x4E86;&#x8FA3;&#x4E48;&#x591A;&#xFF0C;&#x600E;&#x4E48;&#x7528;&#x5462;</h5><p>Easy&#x5566;&#xFF0C;&#x5728;&#x8981;&#x751F;&#x6210;bean&#x7684;&#x7C7B;&#x524D;&#x52A0;&#x4E0A;&#x6CE8;&#x89E3;&#xFF0C;&#x7136;&#x540E;&#x5728;xml&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x4E2D;&#x52A0;&#x4E0A;<code>&lt;context:conponent-scan base-package = &quot;&#x5728;&#x54EA;&#x4E2A;&#x5305;&#x4E2D;&quot;/&gt;</code>&#x3002;</p>
+<h5 id="Required&#x6CE8;&#x89E3;"><a href="#Required&#x6CE8;&#x89E3;" class="headerlink" title="@Required&#x6CE8;&#x89E3;"></a>@Required&#x6CE8;&#x89E3;</h5><ul>
+<li>@Required&#x6CE8;&#x89E3;&#x4F7F;&#x7528;&#x4E0E;bean&#x5C5E;&#x6027;&#x7684;setter()&#x65B9;&#x6CD5;</li>
+<li>&#x8FD9;&#x4E2A;&#x6CE8;&#x89E3;&#x4EC5;&#x4EC5;&#x8868;&#x793A;&#xFF0C;&#x53D7;&#x5F71;&#x54CD;&#x7684;bean&#x5C5E;&#x6027;&#x5FC5;&#x987B;&#x5728;&#x914D;&#x7F6E;&#x65F6;&#x88AB;&#x586B;&#x5145;&#xFF0C;&#x901A;&#x8FC7;&#x5728;bean&#x5B9A;&#x4E49;&#x6216;&#x901A;&#x8FC7;&#x81EA;&#x52A8;&#x88C5;&#x914D;&#x4E00;&#x4E2A;&#x660E;&#x786E;&#x7684;&#x5C5E;&#x6027;&#x503C;</li>
+</ul>
+<h5 id="Autowired&#x6CE8;&#x89E3;"><a href="#Autowired&#x6CE8;&#x89E3;" class="headerlink" title="@Autowired&#x6CE8;&#x89E3;"></a>@Autowired&#x6CE8;&#x89E3;</h5><ul>
+<li>&#x53EF;&#x4EE5;&#x5C06;@Autowired&#x6CE8;&#x89E3;&#x4E3A;&#x4F20;&#x7EDF;&#x7684;setter&#x65B9;&#x6CD5;</li>
+<li>&#x53EF;&#x7528;&#x4E8E;&#x6784;&#x9020;&#x5668;&#x6216;&#x6210;&#x5458;&#x53D8;&#x91CF;&#xFF08;&#x7528;&#x5728;&#x54EA;&#x5C31;&#x653E;&#x54EA;&#x7684;&#x8111;&#x888B;&#x9876;&#x4E0A;&#x5C31;&#x884C;&#x5566;&#xFF09;</li>
+<li>&#x9ED8;&#x8BA4;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;&#x5982;&#x679C;&#x627E;&#x4E0D;&#x5230;&#x5408;&#x9002;&#x7684;bean&#x5C06;&#x4F1A;&#x5BFC;&#x81F4;autowiring&#x5931;&#x8D25;&#x629B;&#x51FA;&#x5F02;&#x5E38;&#xFF0C;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x8BBE;&#x7F6E;@Autowired(required = false)&#x6765;&#x907F;&#x514D;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x8BF4;&#x8FD9;&#x4E0D;&#x662F;&#x4E00;&#x4E2A;&#x5FC5;&#x9700;&#x7684;&#xFF0C;&#x627E;&#x4E0D;&#x5230;&#x4E5F;&#x6CA1;&#x5173;&#x7CFB;</li>
+<li>&#x6BCF;&#x4E2A;&#x7C7B;&#x53EA;&#x80FD;&#x6709;&#x4E00;&#x4E2A;&#x6784;&#x9020;&#x5668;&#x88AB;&#x6807;&#x8BB0;&#x4E3A;required=true</li>
+<li>@Autowired&#x7684;&#x5FC5;&#x8981;&#x4E8B;&#x9879;&#xFF0C;&#x5EFA;&#x8BAE;&#x4F7F;&#x7528;@Required&#x6CE8;&#x89E3;</li>
+</ul>
+<ul>
+<li><p>&#x53EF;&#x4EE5;&#x4F7F;&#x7528;@Autowired&#x6CE8;&#x89E3;&#x90A3;&#x4E9B;&#x4F17;&#x6240;&#x5468;&#x77E5;&#x7684;&#x89E3;&#x6790;&#x4F9D;&#x8D56;&#x6027;&#x63A5;&#x53E3;&#xFF0C;&#x6BD4;&#x5982;&#xFF1A;BeanFactory&#xFF0C;ApplicationContext&#xFF0C;Environment&#xFF0C;ResourceLoader&#xFF0C;ApplicationEventPublicsher&#xFF0C;and MessageSource</p>
+</li>
+<li><p>&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x6DFB;&#x52A0;&#x6CE8;&#x89E3;&#x7ED9;&#x9700;&#x8981;&#x8BE5;&#x7C7B;&#x578B;&#x7684;&#x5BB9;&#x5668;&#xFF0C;&#x4EE5;&#x63D0;&#x4F9B;ApplicationContext&#x4E2D;&#x7684;&#x6240;&#x6709;&#x7279;&#x5B9A;&#x7C7B;&#x578B;&#x7684;bean&#x3002;&#x8BF4;&#x4EBA;&#x8BDD;&#x5C31;&#x662F;&#x5728;&#x4E00;&#x4E2A;Map/Set&#x5934;&#x9876;&#x4E0A;&#x52A0;@Autowired&#xFF0C;&#x5728;&#x5B9E;&#x4F53;&#x7C7B;&#x8111;&#x888B;&#x9876;&#x4E0A;&#x52A0;@Component&#xFF0C;&#x5C31;&#x628A;@Component&#x7C7B;&#x751F;&#x6210;&#x7684;&#x90A3;&#x4E9B;bean&#x90FD;&#x52A0;&#x5230;&#x5BB9;&#x5668;&#x4E2D;&#x4E86;</p>
+</li>
+<li>&#x5982;&#x679C;&#x5E0C;&#x671B;&#x4F7F;&#x7528;&#x7684;list/&#x6570;&#x7EC4;&#x6709;&#x5E8F;&#xFF0C;&#x53EF;&#x4EE5;&#x8BA9;bean&#x5B9E;&#x73B0;org.springframework.core.Ordered&#x63A5;&#x53E3;&#x6216;&#x4F7F;&#x7528;@Order&#x6CE8;&#x89E3;&#xFF0C;&#x4F8B;&#x5982;@Order(1)</li>
+</ul>
+<h5 id="Quallifier&#x6CE8;&#x89E3;"><a href="#Quallifier&#x6CE8;&#x89E3;" class="headerlink" title="Quallifier&#x6CE8;&#x89E3;"></a>Quallifier&#x6CE8;&#x89E3;</h5><ul>
+<li>&#x6309;&#x7C7B;&#x578B;&#x81EA;&#x52A8;&#x88C5;&#x914D;&#x53EF;&#x80FD;&#x591A;&#x4E2A;bean&#x5B9E;&#x4F8B;&#x7684;&#x60C5;&#x51B5;&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;Spring&#x7684;@Qualifier&#x6CE8;&#x89E3;&#x7F29;&#x5C0F;&#x8303;&#x56F4;&#xFF0C;&#x4E5F;&#x53EF;&#x4EE5;&#x7528;&#x4E8E;&#x6307;&#x5B9A;&#x5355;&#x72EC;&#x7684;&#x6784;&#x9020;&#x5668;&#x53C2;&#x6570;&#x6216;&#x65B9;&#x6CD5;&#x53C2;&#x6570;</li>
+<li>&#x53EF;&#x7528;&#x4E8E;&#x6CE8;&#x89E3;&#x96C6;&#x5408;&#x7C7B;&#x578B;&#x53D8;&#x91CF;</li>
+<li>@Autowired&#x9002;&#x7528;&#x4E8E;fields&#xFF0C;constructorscrfjdi</li>
+</ul>
+<h5 id="&#x57FA;&#x4E8E;Java&#x7684;&#x5BB9;&#x5668;&#x6CE8;&#x89E3;"><a href="#&#x57FA;&#x4E8E;Java&#x7684;&#x5BB9;&#x5668;&#x6CE8;&#x89E3;" class="headerlink" title="&#x57FA;&#x4E8E;Java&#x7684;&#x5BB9;&#x5668;&#x6CE8;&#x89E3;"></a>&#x57FA;&#x4E8E;Java&#x7684;&#x5BB9;&#x5668;&#x6CE8;&#x89E3;</h5><ul>
+<li>@Bean&#x6807;&#x8BC6;&#x4E00;&#x4E2A;&#x7528;&#x4E8E;&#x914D;&#x7F6E;&#x548C;&#x521D;&#x59CB;&#x5316;&#x4E00;&#x4E2A;&#x7531;SpringIoC&#x5BB9;&#x5668;&#x7BA1;&#x7406;&#x7684;&#x65B0;&#x5BF9;&#x8C61;&#x7684;&#x65B9;&#x6CD5;&#xFF0C;&#x7C7B;&#x4F3C;&#x4E8E;XML&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x7684;&lt;bean/</li>
+<li>&#x53EF;&#x4EE5;&#x5728;Spring&#x7684;@Component&#x6CE8;&#x89E3;&#x7684;&#x7C7B;&#x4E2D;&#x4F7F;&#x7528;@Bean&#x6CE8;&#x89E3;&#x4EFB;&#x4F55;&#x65B9;&#x6CD5;</li>
+<li>&#x5728;&#x4E0A;&#x4E00;&#x70B9;&#x4E2D;&#x901A;&#x5E38;&#x4F7F;&#x7528;&#x7684;&#x662F;@Configuration<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">@Configuration</div><div class="line">public class AppConfig {</div><div class="line"></div><div class="line">     @Bean</div><div class="line">     public MyService myService() {</div><div class="line">         return new MyServiceImpl();</div><div class="line">     }</div><div class="line">}</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>&#x76F8;&#x5F53;&#x4E8E;xml&#x6587;&#x9759;&#x4E2D;&#x7684;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;beans&gt;</div><div class="line">    &lt;bean id = &quot;myService&quot; class = &quot;com.services.MyServiceImpl&quot;/&gt;</div><div class="line">&lt;/beans&gt;</div></pre></td></tr></table></figure></p>
+<h5 id="&#x57FA;&#x4E8E;Java&#x7684;&#x5BB9;&#x5668;&#x6CE8;&#x89E3;&#x8BF4;&#x660E;&#x2013;-ImportResrouce&#x548C;-Value"><a href="#&#x57FA;&#x4E8E;Java&#x7684;&#x5BB9;&#x5668;&#x6CE8;&#x89E3;&#x8BF4;&#x660E;&#x2013;-ImportResrouce&#x548C;-Value" class="headerlink" title="&#x57FA;&#x4E8E;Java&#x7684;&#x5BB9;&#x5668;&#x6CE8;&#x89E3;&#x8BF4;&#x660E;&#x2013;@ImportResrouce&#x548C;@Value"></a>&#x57FA;&#x4E8E;Java&#x7684;&#x5BB9;&#x5668;&#x6CE8;&#x89E3;&#x8BF4;&#x660E;&#x2013;@ImportResrouce&#x548C;@Value</h5><p><img src="http://i1.piimg.com/585015/fd86c170e1982823.png" alt="Markdown"></p>
+<p>&#x4EE5;&#x4E0A;&#xFF0C;&#x7531;&#x4E8E;&#x5B9E;&#x5728;&#x770B;&#x4E0D;&#x52A8;&#x4E86;&#xFF0C;&#x5C31;&#x5148;&#x5199;&#x5230;&#x8FD9;&#x91CC;&#xFF0C;&#x4E0D;&#x5B9A;&#x65F6;&#x66F4;&#x65B0;~~</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Java/" rel="tag"># Java</a>
+          
+            <a href="/tags/Spring/" rel="tag"># Spring</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/03/07/TCP的三次握手与四次挥手/" rel="next" title="TCP的三次握手与四次挥手">
+                <i class="fa fa-chevron-left"></i> TCP的三次握手与四次挥手
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/03/13/Spring-IOC初步/"
+           data-title="Spring IOC初步" data-url="http://yoursite.com/2017/03/13/Spring-IOC初步/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="CiCi" />
+          <p class="site-author-name" itemprop="name">CiCi</p>
+          <p class="site-description motion-element" itemprop="description">我们的征途是星辰大海</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/">
+              <span class="site-state-item-count">39</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/CiCi503" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/3067799367" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/cici-kong-79" target="_blank" title="Zhihu">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Zhihu
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring-IOC"><span class="nav-number">1.</span> <span class="nav-text">Spring IOC</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring-IOC是干啥的"><span class="nav-number">1.1.</span> <span class="nav-text">Spring IOC是干啥的</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring-IOC怎么用"><span class="nav-number">1.2.</span> <span class="nav-text">Spring IOC怎么用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Spring容器"><span class="nav-number">1.2.1.</span> <span class="nav-text">Spring容器</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Spring容器是什么"><span class="nav-number">1.2.1.1.</span> <span class="nav-text">Spring容器是什么</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#BeanFactory的基本方法"><span class="nav-number">1.2.1.2.</span> <span class="nav-text">BeanFactory的基本方法</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#传入Xml文件"><span class="nav-number">1.2.1.2.1.</span> <span class="nav-text">传入Xml文件</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#ApplicationContext相对于-BeanFactory的额外特性"><span class="nav-number">1.2.1.3.</span> <span class="nav-text">ApplicationContext相对于 BeanFactory的额外特性</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#通过BeanFactoryAware接口让Bean获取Spring容器"><span class="nav-number">1.2.2.</span> <span class="nav-text">通过BeanFactoryAware接口让Bean获取Spring容器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Spring的常用注入方式"><span class="nav-number">1.2.3.</span> <span class="nav-text">Spring的常用注入方式</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Spring的注入"><span class="nav-number">1.2.3.1.</span> <span class="nav-text">Spring的注入</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#设值注入"><span class="nav-number">1.2.3.2.</span> <span class="nav-text">设值注入</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#构造注入"><span class="nav-number">1.2.3.3.</span> <span class="nav-text">构造注入</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#两种方法的比较"><span class="nav-number">1.2.3.4.</span> <span class="nav-text">两种方法的比较</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Spring-Bean"><span class="nav-number">1.2.4.</span> <span class="nav-text">Spring Bean</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Bean的配置项"><span class="nav-number">1.2.4.1.</span> <span class="nav-text">Bean的配置项</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Bean的作用域"><span class="nav-number">1.2.4.2.</span> <span class="nav-text">Bean的作用域</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Bean的生命周期"><span class="nav-number">1.2.4.3.</span> <span class="nav-text">Bean的生命周期</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#通过XML文件配置"><span class="nav-number">1.2.5.</span> <span class="nav-text">通过XML文件配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#通过注解配置"><span class="nav-number">1.2.6.</span> <span class="nav-text">通过注解配置</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#ClassPath扫描与组件管理"><span class="nav-number">1.2.6.1.</span> <span class="nav-text">ClassPath扫描与组件管理</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#元注解（Meta-annotations）"><span class="nav-number">1.2.6.2.</span> <span class="nav-text">元注解（Meta-annotations）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#类的自动检测及Bean的注册"><span class="nav-number">1.2.6.3.</span> <span class="nav-text">类的自动检测及Bean的注册</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#使用过滤器进行自定义扫描"><span class="nav-number">1.2.6.4.</span> <span class="nav-text">使用过滤器进行自定义扫描</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#说了辣么多，怎么用呢"><span class="nav-number">1.2.6.5.</span> <span class="nav-text">说了辣么多，怎么用呢</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Required注解"><span class="nav-number">1.2.6.6.</span> <span class="nav-text">@Required注解</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Autowired注解"><span class="nav-number">1.2.6.7.</span> <span class="nav-text">@Autowired注解</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Quallifier注解"><span class="nav-number">1.2.6.8.</span> <span class="nav-text">Quallifier注解</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#基于Java的容器注解"><span class="nav-number">1.2.6.9.</span> <span class="nav-text">基于Java的容器注解</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#基于Java的容器注解说明–-ImportResrouce和-Value"><span class="nav-number">1.2.6.10.</span> <span class="nav-text">基于Java的容器注解说明–@ImportResrouce和@Value</span></a></li></ol></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CiCi</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"cici503"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("yOKp8TSSopekUBDW6c0rKVEN-gzGzoHsz", "8llkxLRm2gbWYIEXXGd5XpHg");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  <script type="text/javascript" src="/js/src/love.js"></script>
+
+</body>
+</html>
